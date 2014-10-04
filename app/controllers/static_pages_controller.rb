@@ -11,7 +11,8 @@ class StaticPagesController < ApplicationController
 			  http.request(req)
 			}
 			content_hash = JSON.parse(res.body)
-			@content = "Coordinates of " + params['building'].to_s + ": " + [content_hash[0]['lat_wgs84'],content_hash[0]['long_wgs84']].to_s
+			@latlon = [content_hash[0]['lat_wgs84'], content_hash[0]['long_wgs84']]
+			# @content = "Coordinates of " + params['building'].to_s + ": " + 
   	end
   end
 end
