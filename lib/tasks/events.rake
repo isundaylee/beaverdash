@@ -47,9 +47,24 @@ namespace :events do
         h['name'] == 'Subject'
       end.first['value']
 
-      content = message.data.payload.parts[0].body.data
+      content = Base64.decode64(message.data.payload.parts[0].body.to_json.gsub(/_/, "/").gsub(/-/, "+"))
+      content_utf8 = content.encode('utf-8', {
+        invalid: :replace,
+        undef: :replace,
+        replace: '?'
+      })
 
-      puts subject
+      client.execute(
+        api_method: gm.users.messages.trash,
+        parameters: {
+          userId: 'me',
+          id: m.id,
+        }
+      )
+
+      puts "Message: " + subject
+
+      Event.create!(title: subject, raw: content_utf8)
     end
 
     if count > 0
