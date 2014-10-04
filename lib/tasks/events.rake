@@ -1,6 +1,7 @@
 namespace :events do
   desc "Fetch new events from the gmail account. "
   task fetch: :environment do
+    require 'yo-ruby'
     require 'google/api_client'
     require 'google/api_client/client_secrets'
     require 'google/api_client/auth/installed_app'
@@ -49,9 +50,13 @@ namespace :events do
       content = message.data.payload.parts[0].body.data
 
       puts subject
-      # puts message.data.to_json['payload']['parts']
-      # puts message.data.to_json['payload']['parts'][0]
-      # puts message.data.to_json['payload']['parts'][0]['body']
+    end
+
+    if count > 0
+      Yo.api_key = APP_CONFIG[:yo][:api_key]
+      Yo.all!(link: 'http://google.com')
+
+      puts 'Yo-ed our lovely subscribers! '
     end
   end
 

@@ -54,3 +54,6 @@ gem 'whenever'
 
 # Whatevers
 gem 'bson_ext'
+
+# Yo!
+gem 'yo-ruby'
