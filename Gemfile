@@ -47,3 +47,10 @@ gem 'foundation-rails'
 
 # Gmail
 gem 'gmail', github: 'johnnyshields/gmail', branch: 'fix-mail-version-lock'
+gem 'google-api-client'
+
+# Timed tasks
+gem 'whenever'
+
+# Whatevers
+gem 'bson_ext'
