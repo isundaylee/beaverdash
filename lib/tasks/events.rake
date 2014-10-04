@@ -130,6 +130,7 @@ namespace :events do
   task parse: :environment do
     Event.all(:parsed.ne => true).each do |e|
       puts e.title
+      e.parse!
     end
   end
 
