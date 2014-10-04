@@ -44,3 +44,6 @@ gem 'mongo_mapper'
 
 # Foundation
 gem 'foundation-rails'
+
+# Gmail
+gem 'gmail', github: 'johnnyshields/gmail', branch: 'fix-mail-version-lock'
