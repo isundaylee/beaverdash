@@ -47,7 +47,13 @@ namespace :events do
         h['name'] == 'Subject'
       end.first['value']
 
-      content = Base64.decode64(message.data.payload.parts[0].body.to_json.gsub(/_/, "/").gsub(/-/, "+"))
+      part = message.data.payload
+      while part.mimeType =~ /multitype/ do
+        puts part.to_json
+        part = part.parts[0]
+      end
+
+      content = Base64.decode64(part.body.to_json.gsub(/_/, "/").gsub(/-/, "+"))
       content_utf8 = content.encode('utf-8', {
         invalid: :replace,
         undef: :replace,
@@ -119,6 +125,12 @@ namespace :events do
 
     File.write(APP_CONFIG[:gmail][:credentials_file], credentials.to_yaml)
     puts 'Success! '
+  end
+
+  task parse: :environment do
+    Event.all(:parsed.ne => true).each do |e|
+      puts e.title
+    end
   end
 
 end
