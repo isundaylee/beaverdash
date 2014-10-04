@@ -15,5 +15,5 @@
 /log/*.log
 /tmp
 
-# Ignores bundled gems
+# Vendor gems
 vendor/ruby

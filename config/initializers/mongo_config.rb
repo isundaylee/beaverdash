@@ -1,0 +1,1 @@
+MongoMapper.database = "hackmit2014-#{Rails.env}"
