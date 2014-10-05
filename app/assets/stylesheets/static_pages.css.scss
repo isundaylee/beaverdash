@@ -32,6 +32,8 @@
   display: none;
   overflow: scroll;
 
+  z-index: 100; 
+
   p {
     width: 600px;
     display: block;
