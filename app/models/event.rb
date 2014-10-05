@@ -40,25 +40,31 @@ class Event
     "Building #{num.upcase}#{(' ' + loc[:floor].titleize) rescue ''}#{(' ' + loc[:signal_words].map(&:titleize).join('/')) rescue ''}"
   end
 
+  def friendly_datetime
+    Time.at(id.generation_time).localtime.strftime('%l:%M %p').strip
+  end
+
   def estimated_predators
-    ans = 0.0
-    values = []
+    Rails.cache.fetch(['estimated_predators', id.to_s, RouterNode.first.id.generation_time]) do
+      ans = 0.0
+      values = []
 
-    RouterNode.each do |n|
-      dlat = 85 * (lat - n.lat)
-      dlon = 110 * (lon - n.lon)
-      d = Math.sqrt(dlat * dlat + dlon * dlon)
+      RouterNode.each do |n|
+        dlat = 85 * (lat - n.lat)
+        dlon = 110 * (lon - n.lon)
+        d = Math.sqrt(dlat * dlat + dlon * dlon)
 
-      p = (d + 3.334) / 2.055
-      v = 0.04384 * Math.exp(-p * p) * n.users
-      ans += v
+        p = (d + 3.334) / 2.055
+        v = 0.04384 * Math.exp(-p * p) * n.users
+        ans += v
 
-      values << [n.lat, n.lon, v] if Random.rand <= 0.01 * Math.exp(v / 0.005)
+        values << [n.lat, n.lon, v] if Random.rand <= 0.003 * Math.exp(v / 0.005)
+      end
+
+      puts values.count
+
+      [ans, values]
     end
-
-    puts values.count
-
-    [ans, values]
   end
 
   private

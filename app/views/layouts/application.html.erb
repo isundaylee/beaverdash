@@ -14,16 +14,25 @@
 
   <body>
     <header>
-      <h1>BeaverDash</h1>
-      <hr>
+      <div class="row">
+        <div class="small-12 large-12 columns">
+          <h1>BeaverDash</h1>
+        </div>
+      </div>
     </header>
+
+    <hr>
+
     <%= yield %>
 
+    <hr>
 
     <footer>
-    <hr>
-    Copyright BeaverDash 2014.  Made at HackMIT.
-    </hr>
+      <div class="row">
+        <div class="small-12 large-12 columns">
+          Copyright BeaverDash 2014.  Made at HackMIT.
+        </div>
+      </div>
     </footer>
     <%= javascript_include_tag "application" %>
   </body>

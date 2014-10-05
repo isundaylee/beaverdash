@@ -1,17 +1,14 @@
 <% @events.each_with_index do |e, i| %>
 	<% estimated_predators = e.estimated_predators %>
-	<div class = "row">
+	<div class = "row event">
 		<div class = "small-12 column">
 			<div class = "panel">
 				<div class = "row">
 					<div class = "small-12 column">
-						<div class = "panel"><%= e.title %></div>
-					</div>
-				</div>
-
-				<div class = "row">
-					<div class = "small-12 column">
-						<div class = "panel"><%= e.friendly_location %></div>
+						<div class="event_title panel">
+							<h3 class="title"><%= link_to e.title, 'javascript: void(0);' %></h3>
+							<p class="info"><%= e.friendly_location %>. Sent at <%= e.friendly_datetime %></p>
+						</div>
 					</div>
 				</div>
 
@@ -26,137 +23,54 @@
 							</div>
 						</div>
 					</div>
-					<div class = "small-12 medium-6 columns">
-						<div class = "row">
-							<strong class="show-for-large-up">
-								<div class = "large-3  columns"> Transport</div>
-								<div class = "large-3  columns"> ETA</div>
-								<div class = "large-3  columns"> Expenditure </div>
-								<div class = "large-3  columns"> Score </div>
-							</strong>
-							<strong class="hide-for-large-up">
-								<div class = "small-12  columns"> Stats</div>
-							</strong>
-						</div>
-						<!--div class="show-for-large-up"-->
-						<div class = "row">
-							<div class = "show-for-large-up">
-								<div class = "panel">
-									<div class = "row">
-										<div class = "large-3 small-12  columns"> Walking</div>
-										<div class = "large-3 small-12  columns"> walking_t</div>
-										<div class = "large-3 small-12  columns"> walking_cal </div>
-										<div class = "large-3 small-12  columns"> walking_pct </div>
-									</div>
-								</div>
-							</div>
-						</div>
 
-						<div class = "hide-for-large-up">
-							<div class = "panel">
-								<div class = "row">
-									<strong class = "small-6 columns"> Walking </strong>
-									<div class = "small-6 columns">walking_t</div>
-								</div>
-								<div class = "row">
-									<div class = "small-6 columns"><p></p></div>
-									<div class = "small-6 columns">walking_cal</div>
-									<!--div class = "small-6 columns">walking_pct</div-->
-								</div>
-							</div>
-						</div>
+					<div class="small-12 medium-6 columns">
+						<table>
+							<tbody>
+								<tr>
+									<th>Transport</th>
+									<th>ETA</th>
+									<th>Expenditure</th>
+									<th>Score</th>
+								</tr>
+								<tr>
+									<td>Walking</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Bicycling</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Uber</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
 
-
-						<div class = "row">
-							<div class = "show-for-large-up">
-								<div class = "panel">
-									<div class = "row">
-										<div class = "large-3 small-12  columns"> Bicycling</div>
-										<div class = "large-3 small-12  columns"> bicycling_t</div>
-										<div class = "large-3 small-12  columns"> bicycling_cal </div>
-										<div class = "large-3 small-12  columns"> bicycling_pct </div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class = "hide-for-large-up">
-							<div class = "panel">
-								<div class = "row">
-									<strong class = "small-6 columns"> Bicycling </strong>
-									<div class = "small-6 columns">bicycling_t</div>
-								</div>
-								<div class = "row">
-									<div class = "small-6 columns"><p></p></div>
-									<div class = "small-6 columns">bicycling_cal</div>
-									<!--div class = "small-6 columns">bicycling_pct</div-->
-								</div>
-							</div>
-						</div>
-
-						<div class = "row">
-							<div class = "show-for-large-up">
-								<div class = "panel">
-									<div class = "row">
-										<div class = "large-3 small-12  columns"> Uber</div>
-										<div class = "large-3 small-12  columns"> uber_t</div>
-										<div class = "large-3 small-12  columns"> uber_cost </div>
-										<div class = "large-3 small-12  columns"> uber_pct </div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class = "hide-for-large-up">
-							<div class = "panel">
-								<div class = "row">
-									<strong class = "small-6 columns"> Uber </strong>
-									<div class = "small-6 columns">uber_t</div>
-								</div>
-								<div class = "row">
-									<div class = "small-6 columns"><p></p></div>
-									<div class = "small-6 columns">uber_cost</div>
-									<!--div class = "small-6 columns">uber_pct</div-->
-								</div>
-							</div>
-						</div>
-
-						<div class = "hide-for-large-up">
-							<div class = "panel">
-								<div class = "row">
-									<strong class = "small-4 columns"> Scores </strong>
-									<div class = "small-4 columns">Walking</div>
-									<div class = "small-4 columns">walking_pct</div>
-								</div>
-								<div class = "row">
-									<div class = "small-4 columns"><p></p></div>
-									<div class = "small-4 columns">Bicycling</div>
-									<div class = "small-4 columns">bicycling_pct</div>
-								</div>
-								<div class = "row">
-									<div class = "small-4 columns"><p></p></div>
-									<div class = "small-4 columns">Uber</div>
-									<div class = "small-4 columns">uber_pct</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="rot">
-							<div class="show-for-large-up">
-								<div class="panel-">
-									<div class="row">
-										<div class="large-12 small-12 columns">Estimated predators: <%= estimated_predators[0] %></div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-						</div>
+						<table>
+							<tbody>
+								<tr>
+									<td>
+						Estimated predators: <%= estimated_predators[0] %></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
-
 			</div>
 		</div>
+		<div class="email_overlay">
+			<% e.raw.lines.each do |l| %>
+				<p><%= l %></p>
+			<% end %>
+		</div>
 	</div>
+
 <% end %>
