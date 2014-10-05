@@ -1,9 +1,9 @@
 namespace :router_nodes do
 	task setup: :environment do
 		file = APP_CONFIG[:router_nodes][:point_data]
-		url = 'https://dl.dropboxusercontent.com/content_link/bJkT7uNzYkW9zmQCY7Vnl8plH9rV73rvpJx6sNexyM4VjbtDUtf9DkLyy9GFYnIg?dl=1'
+		url = 'https://www.dropbox.com/sh/mym5ux7yb3vjqs3/AAA7rXMvumWpkCHjuEGLZUPka/wifi_access_point_data.csv?dl=1'
 
-  	command = "curl \"#{url}\" -o \"#{file}\""
+  	command = "curl \"#{url}\" -L -o \"#{file}\""
   	`#{command}`
 	end
 
@@ -25,8 +25,9 @@ namespace :router_nodes do
   	apns = {}
 
   	apn_rows.each do |r|
+      next if r.strip.empty?
   		i, b, r, lat, lon = r.split(',')
-  		lon.strip! 
+  		lon.strip!
 
   		next if lat == 'None' or lon == 'None'
 
@@ -37,7 +38,7 @@ namespace :router_nodes do
 
   	rows.each do |r|
   		t, n, i = r.split(',')
-  		i.strip! 
+  		i.strip!
   		apn = apns[i]
   		next if apn.nil?
   		RouterNode.create(lat: apn[0], lon: apn[1], users: n)
