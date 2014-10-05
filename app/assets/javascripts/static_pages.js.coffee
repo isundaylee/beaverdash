@@ -49,5 +49,3 @@ $ ->
     type: 'GET'
     beforeSend: (xhr) ->
       xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
-
-
