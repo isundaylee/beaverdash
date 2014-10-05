@@ -17,3 +17,5 @@
 
 # Vendor gems
 vendor/ruby
+
+config/initializers/app_config_sensitive.rb
