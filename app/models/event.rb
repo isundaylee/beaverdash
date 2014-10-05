@@ -50,9 +50,7 @@ class Event
       values = []
 
       RouterNode.each do |n|
-        dlat = 85 * (lat - n.lat)
-        dlon = 110 * (lon - n.lon)
-        d = Math.sqrt(dlat * dlat + dlon * dlon)
+        d = distance_from(n.lat, n.lon)
 
         p = (d + 3.334) / 2.055
         v = 0.04384 * Math.exp(-p * p) * n.users
@@ -65,6 +63,12 @@ class Event
 
       [ans, values]
     end
+  end
+
+  def distance_from(nlat, nlon)
+    dlat = 85 * (lat - nlat)
+    dlon = 111.321 * (lon - nlon)
+    Math.sqrt(dlat * dlat + dlon * dlon)
   end
 
   private
