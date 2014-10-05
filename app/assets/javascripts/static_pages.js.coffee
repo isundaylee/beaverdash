@@ -175,7 +175,7 @@ $ ->
   setPercentages = ->
     $('.map-canvas').each (i, c) ->
       current = new Date()
-      emailTime = new Date(parseFloat($(c).parents('.event').find('.email-time').text()))
+      emailTime = new Date(parseFloat($(c).parents('.event').find('.email-time').text())*1000)
       console.log([current.getTime(),emailTime.getTime()])
       diff = current.getTime() - emailTime.getTime()
       predictedTime = diff / 60000 +  parseFloat($(c).parents('.event').find('.walking-time').text())
