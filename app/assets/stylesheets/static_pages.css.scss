@@ -2,7 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#map-canvas {
-	height: 500px;
-	width: 500px;
+.map-canvas {
+	// height: 500px;
+	// width: 500px;
+  height: 100%;
+  width: 100%;
 }

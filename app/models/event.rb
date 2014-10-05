@@ -5,18 +5,28 @@ class Event
   key :raw, String
 
   key :location, Hash
+  key :lat, Float
+  key :lon, Float
 
   key :parsed, Boolean
   key :valid, Boolean
 
   def parse!
     bn = parse_building_number(title) || parse_building_number(raw)
+    latlon = retrieve_latlon(bn[:building]) unless bn.nil?
 
     set(
       location: bn,
       parsed: true,
       valid: !bn.nil?
     )
+
+    set(
+      lat: latlon[0],
+      lon: latlon[1]
+    ) unless bn.nil?
+
+    puts latlon
   end
 
   def friendly_location
@@ -31,6 +41,16 @@ class Event
   end
 
   private
+
+    def retrieve_latlon(building)
+      url = URI.parse('http://m.mit.edu/apis/maps/places/?q=' + building)
+      req = Net::HTTP::Get.new(url.to_s)
+      res = Net::HTTP.start(url.host, url.port) {|http|
+        http.request(req)
+      }
+      content_hash = JSON.parse(res.body)
+      [content_hash[0]['lat_wgs84'].to_f, content_hash[0]['long_wgs84'].to_f]
+    end
 
     def extract_floor(text)
       delimiter = '[^a-z0-9-]'

@@ -3,38 +3,43 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  map = undefined
-  showPosition = (position) ->
-    x.innerHTML = "Current Latitude: " + position.coords.latitude + "<br>Current Longitude: " + position.coords.longitude
-    myLatlng1 = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-    marker1 = new google.maps.Marker(
-      position: myLatlng1
-      map: map
-      title: "Starting Location"
-    )
-    marker1.setMap map
+  maps = {}
 
-    myLatlng2 = new google.maps.LatLng(parseFloat($("#lat").text()), parseFloat($("#lon").text()))
-    marker2 = new google.maps.Marker(
-      position: myLatlng2
-      map: map
-      title: "Destination"
-    )
-    marker2.setMap map
+  showPosition = (position) ->
+    myLatlon = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+
+    $('.map-canvas').each (i, c) ->
+      id = $(c).attr('id')
+      marker1 = new google.maps.Marker(
+        position: myLatlon
+        map: maps[id]
+        title: "Starting Location"
+      )
+      # console.log(marker1)
+      # marker1.setMap maps[id]
+
   getLocation = ->
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition showPosition
     else
-      x.innerHTML = "Geolocation is not supported by this browser."
+      console.log 'Upgrade browser!! '
+
   initializeMap = ->
-    mapOptions =
-      zoom: 17
-      center: new google.maps.LatLng(parseFloat($("#lat").text()), parseFloat($("#lon").text()))
+    $('.map-canvas').each (i, c) ->
+      id = $(c).attr('id')
+      $(c).css('height', $(c).css('width'))
+      latlon = new google.maps.LatLng(parseFloat($(c).find(".lat").text()), parseFloat($(c).find(".lon").text()))
+      mapOptions =
+        zoom: 17
+        center: latlon
+      maps[id] = new google.maps.Map(c, mapOptions)
 
-    map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions)
-
+      marker2 = new google.maps.Marker(
+        position: latlon
+        map: maps[id]
+        title: "Destination"
+      )
+      # marker2.setMap maps[id]
 
   initializeMap()
-  x = document.getElementById("demo")
   getLocation()
-  return
