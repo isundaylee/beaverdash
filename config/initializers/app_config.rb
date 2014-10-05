@@ -43,5 +43,9 @@ APP_CONFIG = {
       'simmons' => 'w79',
       'westgate' => 'w85'
     }
+  },
+  router_nodes: {
+    data_file: File.join(Rails.root, 'tmp/router_nodes.csv'),
+    point_data: File.join(Rails.root, 'tmp/points.csv')
   }
 }
