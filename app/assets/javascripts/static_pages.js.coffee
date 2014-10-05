@@ -65,3 +65,13 @@ $ ->
   initializeLinks()
   initializeMap()
   getLocation()
+
+  $.ajax
+    url: "https://api.uber.com/v1/estimates/price?start_latitude=37.0&start_longitude=-122.0&start_latitude=38.0&start_longitude=-123.0"
+    success: (data, status, xhr) ->
+      console.log data
+    type: 'GET'
+    beforeSend: (xhr) ->
+      xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
+
+
