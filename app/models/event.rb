@@ -7,6 +7,7 @@ class Event
   key :location, Hash
   key :lat, Float
   key :lon, Float
+  key :foods, Array
 
   key :parsed, Boolean
   key :valid, Boolean
@@ -23,7 +24,8 @@ class Event
 
     set(
       lat: latlon[0],
-      lon: latlon[1]
+      lon: latlon[1],
+      foods: parse_food(title + " " + raw)
     ) unless bn.nil?
   end
 
@@ -67,6 +69,14 @@ class Event
 
       [ans, values]
     end
+  end
+
+  def friendly_foods
+    arr = foods
+    return title if arr.empty?
+    foods[-1] = 'and ' + foods[-1] if foods.size > 1
+    foods[0].capitalize!
+    return foods.join(', ')
   end
 
   def distance_from(nlat, nlon)
@@ -148,5 +158,9 @@ class Event
       } if /east cambridge/ =~ text
 
       return nil
+    end
+
+    def parse_food(text)
+      APP_CONFIG[:parse][:foods].select { |f| Regexp.new("\\b" + f + "\\b") =~ text or Regexp.new("\\b" + f.pluralize + "\\b") =~ text }
     end
 end
