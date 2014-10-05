@@ -83,12 +83,13 @@ header h3 {
   padding: 7px 10px;
   margin-top: 12px;
   margin-bottom: -5px;
+  color: #8C1515
 }
 
 header {
   #background-color: #428BCA;
   background-color: #8C1515;
-  margin-top: 5px;
+  margin-top: 0px;
   margin-bottom: -20px;
 }
 
@@ -144,4 +145,30 @@ a {
 
 .email-time, .walking-time {
   display: none;
+}
+
+.fitbit, .fitbit a {
+  margin: 0;
+  padding: 0;
+  color: white;
+  text-align: right;
+}
+
+.fitbit {
+  padding-right: 10px;
+  margin-top: 20px;
+}
+
+h2 {
+  margin-top: 0 !important;
+}
+
+.weight {
+  display: none;
+}
+
+.success_banner {
+  font-size: 15px;
+  margin-bottom: 15px;
+  color: green;
 }

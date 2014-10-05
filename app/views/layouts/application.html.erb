@@ -14,19 +14,37 @@
   <body>
     <header>
       <div class="row">
-        <div class="small-2 large-2 columns">
+        <div class="small-3 large-2 columns">
+        <div class="hide-for-small-only">
           <h3><img src="https://dl.dropboxusercontent.com/u/31822930/MIT-logo-lightgray-white-large.png" /><h3>
         </div>
-        <div class="small-10 large-5 columns">
+        </div>
+        <div class="small-3 large-2 columns">
+        <div class="show-for-small-only">
+          <h3>-<h3>
+        </div>
+        </div>
+        <div class="small-9 large-5 columns">
           <h1>BeaverDash</h1>
         </div>
         <div class="small-12 large-5 columns">
+          <% if @fitbit_link.nil? %>
+            <p class="fitbit">Signed in to Fitbit</p>
+          <% else %>
+            <p class="fitbit"><a href="<%= @fitbit_link %>">Sign in to Fitbit</a></p>
+          <% end %>
           <h2>Revolutionizing Free Food and Reuse at MIT</h2>
         </div>
       </div>
     </header>
 
     <hr>
+
+    <% if flash[:success] %>
+      <div class="row">
+        <div class="small-12 large-12 columns success_banner"><%= flash[:success] %></div>
+      </div>
+    <% end %>
 
     <%= yield %>
 

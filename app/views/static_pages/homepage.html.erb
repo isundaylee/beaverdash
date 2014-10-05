@@ -1,3 +1,7 @@
+<span class="weight"><%= @weight %></span>
+<% if @fitbit_link.nil? %>
+	<span class="has_fitbit"></span>
+<% end %>
 <% @events.each_with_index do |e, i| %>
 	<% estimated_predators = e.estimated_predators %>
 	<% easter_egg = true if e.friendly_location == "10-dome" %>
@@ -61,14 +65,14 @@
 									</tr>
 								<% else %>
 									<tr>
-										<td>Walking</td>
+										<td class="walking_link"><a href="javascript: void(0); ">Walking</a></td>
 										<td class="walking_eta"></td>
-										<td></td>
+										<td class="walking_exp"></td>
 									</tr>
 									<tr>
-										<td>Bicycling</td>
+										<td class="biking_link"><a href="javascript: void(0); ">Bicycling</a></td>
 										<td class="biking_eta"></td>
-										<td></td>
+										<td class="biking_exp"></td>
 									</tr>
 									<tr>
 										<td class="ubering_link"><a href="javascript: void(0); ">UberX</a></td>
