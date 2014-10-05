@@ -15,7 +15,7 @@ $ ->
       /iPhone|iPad|iPod/i.test navigator.userAgent
 
   calculateCalories = (distance, c) ->
-    Math.round(parseFloat($('.weight').text()) * c * (distance * 1.0 / 1600)) + ' cal'
+    Math.round(parseFloat($('.weight').text()) * c * (distance * 1.0 / 1600))
 
   showPosition = (position) ->
     myLatlon = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
@@ -50,7 +50,9 @@ $ ->
         duration = result.routes[0].legs[0].duration.value
         length = result.routes[0].legs[0].distance.value
         $(c).parents('.event').find('.biking_eta').text(formatDate(timeAfter(duration * 1.0 / 60)))
-        $(c).parents('.event').find('.biking_exp').text(calculateCalories(length, 0.28))
+        if $('.has_fitbit').length > 0
+          $(c).parents('.event').find('.biking_link a').attr('href', 'http://localhost:3000/log?activity=biking&duration=' + duration + '&distance=' + length + '&calories=' + calculateCalories(length, 0.28))
+        $(c).parents('.event').find('.biking_exp').text(calculateCalories(length, 0.28) + ' cal')
 
       directionsService.route drive_request, (result, status) ->
         duration = result.routes[0].legs[0].duration.value
@@ -84,8 +86,10 @@ $ ->
             xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
 
       directionsService.route request, (result, status) ->
+        duration = result.routes[0].legs[0].duration.value
         length = result.routes[0].legs[0].distance.value
-        $(c).parents('.event').find('.walking_exp').text(calculateCalories(length, 0.53))
+        $(c).parents('.event').find('.walking_exp').text(calculateCalories(length, 0.53) + ' cal')
+        $(c).parents('.event').find('.walking_link a').attr('href', 'http://localhost:3000/log?activity=walking&duration=' + duration + '&distance=' + length + '&calories=' + calculateCalories(length, 0.53))
         directionDisplays[id].setDirections result if status is google.maps.DirectionsStatus.OK
 
       getWalkingETA();

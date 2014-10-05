@@ -11,4 +11,20 @@ class OauthController < ApplicationController
 
     redirect_to root_url
   end
+
+  def log_activity
+    client = Fitbit::Client.new({:consumer_key => APP_CONFIG[:fitbit][:key], :consumer_secret => APP_CONFIG[:fitbit][:secret], :token => session[:fitbit_token], :secret => session[:fitbit_secret]})
+    access_token = client.reconnect(session[:fitbit_token], session[:fitbit_secret])
+
+    puts client.log_activity({
+      activityName: params[:activity].capitalize,
+      durationMillis: (params[:duration].to_f * 1000).to_i,
+      startTime: DateTime.now.strftime('%H:%M'),
+      date: DateTime.now.strftime('%Y-%m-%d'),
+      distance: params[:distance].to_f / 1600.0,
+      manualCalories: params[:calories],
+    })
+
+    redirect_to root_url
+  end
 end

@@ -1,4 +1,7 @@
 <span class="weight"><%= @weight %></span>
+<% if @fitbit_link.nil? %>
+	<span class="has_fitbit"></span>
+<% end %>
 <% @events.each_with_index do |e, i| %>
 	<% estimated_predators = e.estimated_predators %>
 	<div class = "row event">
@@ -43,13 +46,13 @@
 									<th>Cost</th>
 								</tr>
 								<tr>
-									<td>Walking</td>
+									<td class="walking_link"><a href="javascript: void(0); ">Walking</a></td>
 									<td class="walking_eta"></td>
 									<td class="walking_exp"></td>
 									<td></td>
 								</tr>
 								<tr>
-									<td>Bicycling</td>
+									<td class="biking_link"><a href="javascript: void(0); ">Bicycling</a></td>
 									<td class="biking_eta"></td>
 									<td class="biking_exp"></td>
 									<td></td>

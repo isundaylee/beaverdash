@@ -16,6 +16,16 @@ class StaticPagesController < ApplicationController
       client = Fitbit::Client.new({:consumer_key => APP_CONFIG[:fitbit][:key], :consumer_secret => APP_CONFIG[:fitbit][:secret], :token => session[:fitbit_token], :secret => session[:fitbit_secret]})
       access_token = client.reconnect(session[:fitbit_token], session[:fitbit_secret])
       @weight = client.user_info['user']['weight'].to_f rescue DEFAULT_WEIGHT
+
+      # puts client.log_activity({
+      #   activityName: 'biking',
+      #   durationMillis: 360000,
+      #   startTime: DateTime.now.strftime('%H:%M'),
+      #   date: DateTime.now.strftime('%Y-%m-%d'),
+      #   distance: 1.37,
+      #   manualCalories: 123,
+      #   distanceUnit: Fitbit::ApiUnitSystem.METRIC
+      # })
     end
   end
 end
