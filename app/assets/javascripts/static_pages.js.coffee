@@ -8,6 +8,12 @@ $ ->
   directionDisplays = {}
   directionsService = new google.maps.DirectionsService()
 
+  isMobile =
+    Android: ->
+      /Android/i.test navigator.userAgent
+    iOS: ->
+      /iPhone|iPad|iPod/i.test navigator.userAgent
+
   showPosition = (position) ->
     myLatlon = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
 
@@ -15,6 +21,9 @@ $ ->
       id = $(c).attr('id')
 
       latlon = new google.maps.LatLng(parseFloat($(c).parent().find(".lat").text()), parseFloat($(c).parent().find(".lon").text()))
+
+      if isMobile.iOS() || isMobile.Android()
+        $(c).parents('.event').find('.ubering_link a').attr('href', 'uber://?action=setPickup&pickup=my_location')
 
       request =
         origin: myLatlon
@@ -28,9 +37,46 @@ $ ->
         travelMode: google.maps.TravelMode.BICYCLING
         avoidHighways: true
 
+      drive_request =
+        origin: myLatlon
+        destination: latlon
+        travelMode: google.maps.TravelMode.DRIVING
+        avoidHighways: true
+
       directionsService.route bike_request, (result, status) ->
         duration = result.routes[0].legs[0].duration.value
         $(c).parents('.event').find('.biking_eta').text(formatDate(timeAfter(duration * 1.0 / 60)))
+
+      directionsService.route drive_request, (result, status) ->
+        duration = result.routes[0].legs[0].duration.value
+
+        console.log "https://api.uber.com/v1/estimates/time?start_latitude=" + myLatlon.lat() + "&start_longitude=" + myLatlon.lng()
+
+        $.ajax
+          url: "https://api.uber.com/v1/estimates/time?start_latitude=" + latlon.lat() + "&start_longitude=" + latlon.lng()
+          type: 'GET'
+          success: (data, status, xhr) ->
+            uber_eta = null
+            $(data.times).each (i, t) ->
+              if t['display_name'] == 'uberX'
+                uber_eta = t['estimate']
+            $(c).parents('.event').find('.ubering_eta').text(formatDate(timeAfter((duration + uber_eta) * 1.0 / 60)))
+          beforeSend: (xhr) ->
+            xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
+
+        $.ajax
+          url: "https://api.uber.com/v1/estimates/price?start_latitude=" + myLatlon.lat() + "&start_longitude=" + myLatlon.lng() + "&end_latitude=" + latlon.lat() + "&end_longitude=" + latlon.lng()
+          type: 'GET'
+          success: (data, status, xhr) ->
+            low = null
+            high = null
+            $(data.prices).each (i, t) ->
+              if t['display_name'] == 'uberX'
+                low = parseFloat(t['low_estimate'])
+                high = parseFloat(t['high_estimate'])
+            $(c).parents('.event').find('.ubering_exp').text('$' + (low + high) / 2)
+          beforeSend: (xhr) ->
+            xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
 
       directionsService.route request, (result, status) ->
         directionDisplays[id].setDirections result if status is google.maps.DirectionsStatus.OK
@@ -123,34 +169,3 @@ $ ->
   initializeLinks()
   initializeMap()
   getLocation()
-
-  $.ajax
-    url: "https://api.uber.com/v1/estimates/price?start_latitude=37.0&start_longitude=-122.0&end_latitude=38.0&end_longitude=-123.0"
-
-    success: (data, status, xhr) ->
-      len = data["prices"].length
-      if data["prices"][len - 1]["display_name"] is "uberX"
-        minCost = data["prices"][len - 1]["low_estimate"]
-      else
-        minCost = "N/A"
-      console.log minCost
-    type: 'GET'
-    beforeSend: (xhr) ->
-      xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
-
-
-  $.ajax
-    url: "https://api.uber.com/v1/estimates/time?start_latitude=37.0&start_longitude=-122.0"
-
-    success: (data, status, xhr) ->
-      len = data['times'].length
-      if len > 0
-        if data['times'][len - 1]['display_name'] is "uberX"
-          uber_eta = data['times'][len - 1]['estimate']
-        else
-          uber_eta = "N/A"
-      else
-        uber_eta = "N/A"
-    type: 'GET'
-    beforeSend: (xhr) ->
-      xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
