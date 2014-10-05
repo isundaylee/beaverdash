@@ -25,6 +25,7 @@ class OauthController < ApplicationController
       manualCalories: params[:calories],
     })
 
+    flash[:success] = 'You have successfully logged your ' + params[:activity] + ' activity. '
     redirect_to root_url
   end
 end

@@ -40,6 +40,12 @@
 
     <hr>
 
+    <% if flash[:success] %>
+      <div class="row">
+        <div class="small-12 large-12 columns success_banner"><%= flash[:success] %></div>
+      </div>
+    <% end %>
+
     <%= yield %>
 
     <hr>
