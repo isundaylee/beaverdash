@@ -81,6 +81,14 @@ $ ->
       directionsService.route request, (result, status) ->
         directionDisplays[id].setDirections result if status is google.maps.DirectionsStatus.OK
 
+      if $(c).parents('.event').find('.catmit').text() == "true"
+        marker = new google.maps.Marker(
+          position: new google.maps.LatLng(42.359655, -71.092006)
+          title: "CatMIT!"
+          icon: "http://i.imgur.com/v1hfd2H.gif"
+        )
+        marker.setMap maps[id]
+
       getWalkingETA();
       setPercentages()
 

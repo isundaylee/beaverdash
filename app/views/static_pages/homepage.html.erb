@@ -1,5 +1,6 @@
 <% @events.each_with_index do |e, i| %>
 	<% estimated_predators = e.estimated_predators %>
+	<% easter_egg = true if e.friendly_location == "10-dome" %>
 	<div class = "row event">
 		<div class = "small-12 column">
 			<div class="row">
@@ -33,6 +34,7 @@
 								</tr>
 							</tbody>
 						</table>
+						<span class="catmit" style="display:none"><%= "true" if easter_egg %></span>
 
 						<table>
 							<tbody>
@@ -41,21 +43,39 @@
 									<th>ETA</th>
 									<th>Cost</th>
 								</tr>
-								<tr>
-									<td>Walking</td>
-									<td class="walking_eta"></td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>Bicycling</td>
-									<td class="biking_eta"></td>
-									<td></td>
-								</tr>
-								<tr>
-									<td class="ubering_link"><a href="javascript: void(0); ">UberX</a></td>
-									<td class="ubering_eta"></td>
-									<td class="ubering_exp"></td>
-								</tr>
+								<% if easter_egg %>
+									<tr>
+										<td>Climbing</td>
+										<td>Too long</td>
+										<td>All feeling in your limbs</td>
+									</tr>
+									<tr>
+										<td>Trebuchet</td>
+										<td>Too short</td>
+										<td>Dinner with the CPs</td>
+									</tr>
+									<tr>
+										<td>Helicopter</td>
+										<td>Just right</td>
+										<td>NSA on your trail</td>
+									</tr>
+								<% else %>
+									<tr>
+										<td>Walking</td>
+										<td class="walking_eta"></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Bicycling</td>
+										<td class="biking_eta"></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td class="ubering_link"><a href="javascript: void(0); ">UberX</a></td>
+										<td class="ubering_eta"></td>
+										<td class="ubering_exp"></td>
+									</tr>
+								<% end %>
 							</tbody>
 						</table>
 
@@ -63,7 +83,7 @@
 							<tbody>
 								<tr>
 									<td class="predator-td">
-										Estimated competitors: <span class="predators"><%= estimated_predators[0].round(2) %></span></td>
+										Estimated competitors: <span class="predators"><%= easter_egg ? 'Over 9000!!!' : estimated_predators[0].round(2) %></span></td>
 								</tr>
 							</tbody>
 						</table>
@@ -72,11 +92,12 @@
 							<tbody>
 								<tr>
 									<td class='percentage_bar_container'>
-										<div class='percentage_text_container'>Chance: ~<span class="percentage">...</span>%</div><div class='percentage_bar' style="width: 0">  </div>
+										<div class='percentage_text_container'>Chance: <%= easter_egg ? 'Null Set!' : '~<span class="percentage">...</span>%'.html_safe %></div><div class="percentage_bar" style="width: 0"></div>
 									</td>
 								</tr>
 							</tbody>
 						</table>
+						<%= '<span class="button small">CLAIM THIS CATMIT IMMEDIATELY!!!</span>'.html_safe if easter_egg %>
 					</div>
 				</div>
 			</div>

@@ -112,6 +112,11 @@ class Event
       text = " #{text} "
       delimiter = '[^a-z0-9-]'
 
+      return {
+        building: "10",
+        room: "dome"
+      } if /catmit/ =~ text
+
       dashed_regex = Regexp.new(delimiter + buildings_reg + '-((g|)[0-9]{3,})' + delimiter)
       dashed_match = dashed_regex.match(text)
 
