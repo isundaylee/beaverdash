@@ -116,8 +116,32 @@ $ ->
 
   $.ajax
     url: "https://api.uber.com/v1/estimates/price?start_latitude=37.0&start_longitude=-122.0&end_latitude=38.0&end_longitude=-123.0"
+
     success: (data, status, xhr) ->
-      console.log data
+      len = data["prices"].length
+      if data["prices"][len - 1]["display_name"] is "uberX"
+        minCost = data["prices"][len - 1]["low_estimate"]
+      else
+        minCost = "N/A"
+      console.log minCost
+    type: 'GET'
+    beforeSend: (xhr) ->
+      xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
+
+
+  $.ajax
+    url: "https://api.uber.com/v1/estimates/time?start_latitude=37.0&start_longitude=-122.0"
+
+    success: (data, status, xhr) ->
+      len = data['times'].length
+      if len > 0
+        if data['times'][len - 1]['display_name'] is "uberX"
+          uber_eta = data['times'][len - 1]['estimate']
+        else
+          uber_eta = "N/A"
+      else
+        uber_eta = "N/A"
+      console.log eta
     type: 'GET'
     beforeSend: (xhr) ->
       xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
