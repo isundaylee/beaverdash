@@ -5,7 +5,7 @@ class StaticPagesController < ApplicationController
   DEFAULT_WEIGHT = 150
 
   def homepage
-    @events = Event.all(valid: true).reverse.first(4)
+    @events = Event.all(valid: true).reverse.first(3)
 
     @weight = DEFAULT_WEIGHT
 
