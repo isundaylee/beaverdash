@@ -72,9 +72,9 @@ header h2 {
   font-family: gothamblack, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: italic;
   font-size: 15px;
-  padding: 7px 10px;
-  margin-top: 35px;
-  margin-bottom: -5px;
+  padding: 30px 10px;
+  margin-top: 30px;
+  margin-bottom: -20px;
   color: #FFF;
   text-align: right;
 }
@@ -155,8 +155,11 @@ a {
 }
 
 .fitbit {
+  font-family: gothamblack, "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding-right: 10px;
-  margin-top: 20px;
+  margin-top: 7px;
+  font-size: 10px;
+  text-align: right;
 }
 
 h2 {
