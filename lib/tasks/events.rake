@@ -48,12 +48,12 @@ namespace :events do
       end.first['value']
 
       part = message.data.payload
-      while part.mimeType =~ /multitype/ do
-        puts part.to_json
+      while part.mimeType =~ /multipart/ do
         part = part.parts[0]
       end
 
-      content = Base64.decode64(part.body.to_json.gsub(/_/, "/").gsub(/-/, "+"))
+      content = Base64.decode64(JSON.parse(part.body.to_json)['data'].gsub(/_/, "/").gsub(/-/, "+"))
+      # content = part.body.data
       content_utf8 = content.encode('utf-8', {
         invalid: :replace,
         undef: :replace,

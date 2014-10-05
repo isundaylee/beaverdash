@@ -67,7 +67,17 @@
 							<tbody>
 								<tr>
 									<td>
-						Estimated predators: <%= estimated_predators[0] %></td>
+										Estimated predators: <%= estimated_predators[0].round(2) %></td>
+								</tr>
+							</tbody>
+						</table>
+
+						<table>
+							<tbody>
+								<tr>
+									<td class='percentage_bar_container'>
+										<div class='percentage_bar'>Your chance: <span class="percentage"><%= (Random.rand * 100).to_i %></span>%</div>
+									</td>
 								</tr>
 							</tbody>
 						</table>

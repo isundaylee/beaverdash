@@ -19,12 +19,20 @@ $ ->
       request =
         origin: myLatlon
         destination: latlon
+        travelMode: google.maps.TravelMode.WALKING
+        avoidHighways: true
+
+      bike_request =
+        origin: myLatlon
+        destination: latlon
         travelMode: google.maps.TravelMode.BICYCLING
         avoidHighways: true
 
-      directionsService.route request, (result, status) ->
+      directionsService.route bike_request, (result, status) ->
         duration = result.routes[0].legs[0].duration.value
         $(c).parents('.event').find('.biking_eta').text(formatDate(timeAfter(duration * 1.0 / 60)))
+
+      directionsService.route request, (result, status) ->
         directionDisplays[id].setDirections result if status is google.maps.DirectionsStatus.OK
 
       getWalkingETA();
@@ -97,6 +105,11 @@ $ ->
       time = distance * 10
       $(c).parents('.event').find('.walking_eta').text(formatDate(timeAfter(time)))
 
+  setPercentages = ->
+    $('.map-canvas').each (i, c) ->
+      $(c).parents('.event').find('.percentage_bar').css('width', $(c).parents('.event').find('.percentage').text() + '%')
+
+  setPercentages()
   initializeLinks()
   initializeMap()
   getLocation()

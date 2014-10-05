@@ -25,8 +25,6 @@ class Event
       lat: latlon[0],
       lon: latlon[1]
     ) unless bn.nil?
-
-    puts latlon
   end
 
   def friendly_location
@@ -131,8 +129,5 @@ class Event
       } if name_match
 
       return nil
-    end
-
-    def parse_time(text)
     end
 end

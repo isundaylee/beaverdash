@@ -71,3 +71,16 @@ footer div {
 .panel {
   background-color: #f6f6f6 !important;
 }
+
+.percentage_bar_container {
+  padding: 0 !important;
+}
+
+.percentage_bar {
+  background-color: green;
+  width: 70%;
+  height: 100%;
+  padding: 10px 20px;
+  color: white;
+  overflow: hidden;
+}
