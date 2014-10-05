@@ -39,5 +39,20 @@ $ ->
       directionDisplays[id] = new google.maps.DirectionsRenderer()
       directionDisplays[id].setMap maps[id]
 
+      circles = $.parseJSON($(c).parent().find('.router_points').text())
+      $(circles).each (i, c) ->
+        options =
+          strokeColor: '#255AA7',
+          strokeOpacity: 0,
+          strokeWeight: 2,
+          fillColor: '#ED2626',
+          fillOpacity: 0.2 + 2 * c[2],
+          map: maps[id],
+          center: new google.maps.LatLng(c[0], c[1]),
+          radius: 10 + 100 * c[2]
+
+        new google.maps.Circle(options)
+
+
   initializeMap()
   getLocation()

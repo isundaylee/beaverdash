@@ -42,6 +42,7 @@ class Event
 
   def estimated_predators
     ans = 0.0
+    values = []
 
     RouterNode.each do |n|
       dlat = 85 * (lat - n.lat)
@@ -49,10 +50,15 @@ class Event
       d = Math.sqrt(dlat * dlat + dlon * dlon)
 
       p = (d + 3.334) / 2.055
-      ans += 0.04384 * Math.exp(-p * p) * n.users
+      v = 0.04384 * Math.exp(-p * p) * n.users
+      ans += v
+
+      values << [n.lat, n.lon, v] if Random.rand <= 0.01 * Math.exp(v / 0.005)
     end
 
-    ans
+    puts values.count
+
+    [ans, values]
   end
 
   private

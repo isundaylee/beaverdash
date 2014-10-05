@@ -3,7 +3,7 @@ class StaticPagesController < ApplicationController
 	require 'json'
 
   def homepage
-    @events = Event.all(valid: true)
+    @events = [Event.all(valid: true).first]
   end
 
   def location
