@@ -57,7 +57,7 @@ $ ->
     $(ev.target).parents('.event').find('.email_overlay').show()
 
   initializeLinks = ->
-    $('.event_title a').click(display_email)
+    $('.title a').click(display_email)
 
     $('.email_overlay').click ->
       $('.email_overlay').hide()
