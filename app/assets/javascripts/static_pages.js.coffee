@@ -4,19 +4,25 @@
 
 $ ->
   maps = {}
+  directionDisplays = {}
+  directionsService = new google.maps.DirectionsService()
 
   showPosition = (position) ->
     myLatlon = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
 
     $('.map-canvas').each (i, c) ->
       id = $(c).attr('id')
-      marker1 = new google.maps.Marker(
-        position: myLatlon
-        map: maps[id]
-        title: "Starting Location"
-      )
-      # console.log(marker1)
-      # marker1.setMap maps[id]
+
+      latlon = new google.maps.LatLng(parseFloat($(c).parent().find(".lat").text()), parseFloat($(c).parent().find(".lon").text()))
+
+      request =
+        origin: myLatlon
+        destination: latlon
+        travelMode: google.maps.TravelMode.WALKING
+        avoidHighways: true
+
+      directionsService.route request, (result, status) ->
+        directionDisplays[id].setDirections result if status is google.maps.DirectionsStatus.OK
 
   getLocation = ->
     if navigator.geolocation
@@ -29,17 +35,9 @@ $ ->
       id = $(c).attr('id')
       $(c).css('height', $(c).css('width'))
       latlon = new google.maps.LatLng(parseFloat($(c).find(".lat").text()), parseFloat($(c).find(".lon").text()))
-      mapOptions =
-        zoom: 17
-        center: latlon
-      maps[id] = new google.maps.Map(c, mapOptions)
-
-      marker2 = new google.maps.Marker(
-        position: latlon
-        map: maps[id]
-        title: "Destination"
-      )
-      # marker2.setMap maps[id]
+      maps[id] = new google.maps.Map(c)
+      directionDisplays[id] = new google.maps.DirectionsRenderer()
+      directionDisplays[id].setMap maps[id]
 
   initializeMap()
   getLocation()
