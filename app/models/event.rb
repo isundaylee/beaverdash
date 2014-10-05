@@ -13,7 +13,7 @@ class Event
 
   def parse!
     bn = parse_building_number(title) || parse_building_number(raw)
-    latlon = retrieve_latlon(bn[:building]) unless bn.nil?
+    latlon = retrieve_latlon(bn[:building] || bn[:city]) unless bn.nil?
 
     set(
       location: bn,
@@ -30,6 +30,8 @@ class Event
   def friendly_location
     loc = location
     return nil if loc.nil? or loc.empty?
+
+    return 'East Cambridge' if (loc[:city] && loc[:city] == 'east cambridge')
 
     num = loc[:room] ?
       "#{loc[:building]}-#{loc[:room]}" :
@@ -75,8 +77,12 @@ class Event
 
   private
 
-    def retrieve_latlon(building)
-      url = URI.parse('http://m.mit.edu/apis/maps/places/?q=' + building)
+    def retrieve_latlon(building_or_city)
+      if building_or_city == 'east cambridge'
+        return [42.367026, -71.081706]
+      end
+
+      url = URI.parse('http://m.mit.edu/apis/maps/places/?q=' + building_or_city)
       req = Net::HTTP::Get.new(url.to_s)
       res = Net::HTTP.start(url.host, url.port) {|http|
         http.request(req)
@@ -131,6 +137,10 @@ class Event
         floor: extract_floor(text),
         signal_words: APP_CONFIG[:parse][:location_signal_words].select { |w| text =~ Regexp.new(w) }
       } if name_match
+
+      return {
+        city: 'east cambridge'
+      } if /east cambridge/ =~ text
 
       return nil
     end

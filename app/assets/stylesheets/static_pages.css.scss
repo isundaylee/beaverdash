@@ -118,7 +118,7 @@ footer {
 
 .percentage_bar_container {
   padding: 0 !important;
-  position: relative; 
+  position: relative;
 }
 
 .percentage_bar {
@@ -140,4 +140,8 @@ footer {
 
 a {
   color: #8C1515
+}
+
+.email-time, .walking-time {
+  display: none;
 }
