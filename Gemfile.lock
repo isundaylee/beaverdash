@@ -44,8 +44,6 @@ GEM
       extlib (>= 0.9.15)
       multi_json (>= 1.0.0)
     bson (1.11.1)
-    bson_ext (1.11.1)
-      bson (~> 1.11.1)
     builder (3.2.2)
     chronic (0.10.2)
     coffee-rails (4.0.1)
@@ -181,9 +179,9 @@ GEM
 
 PLATFORMS
   ruby
+  x64-mingw32
 
 DEPENDENCIES
-  bson_ext
   coffee-rails (~> 4.0.0)
   foundation-rails
   gmail!

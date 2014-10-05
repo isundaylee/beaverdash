@@ -53,7 +53,7 @@ gem 'google-api-client'
 gem 'whenever'
 
 # Whatevers
-gem 'bson_ext'
+#gem 'bson_ext'
 
 # Yo!
 gem 'yo-ruby'
