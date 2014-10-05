@@ -7,6 +7,8 @@ class StaticPagesController < ApplicationController
   def homepage
     @events = Event.all(valid: true).reverse.first(4)
 
+    @weight = DEFAULT_WEIGHT
+
     if session[:fitbit_token].nil?
       client = Fitbit::Client.new({:consumer_key => APP_CONFIG[:fitbit][:key], :consumer_secret => APP_CONFIG[:fitbit][:secret]})
       request = client.request_token
