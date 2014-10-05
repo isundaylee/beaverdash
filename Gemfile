@@ -57,3 +57,6 @@ gem 'whenever'
 
 # Yo!
 gem 'yo-ruby'
+
+# Fitbit
+gem 'fitbit'

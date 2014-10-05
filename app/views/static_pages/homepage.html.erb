@@ -1,3 +1,4 @@
+<span class="weight"><%= @weight %></span>
 <% @events.each_with_index do |e, i| %>
 	<% estimated_predators = e.estimated_predators %>
 	<div class = "row event">
@@ -44,11 +45,13 @@
 								<tr>
 									<td>Walking</td>
 									<td class="walking_eta"></td>
+									<td class="walking_exp"></td>
 									<td></td>
 								</tr>
 								<tr>
 									<td>Bicycling</td>
 									<td class="biking_eta"></td>
+									<td class="biking_exp"></td>
 									<td></td>
 								</tr>
 								<tr>

@@ -145,3 +145,23 @@ a {
 .email-time, .walking-time {
   display: none;
 }
+
+.fitbit, .fitbit a {
+  margin: 0;
+  padding: 0;
+  color: white;
+  text-align: right;
+}
+
+.fitbit {
+  padding-right: 10px;
+  margin-top: 20px;
+}
+
+h2 {
+  margin-top: 0 !important;
+}
+
+.weight {
+  display: none;
+}

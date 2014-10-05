@@ -47,5 +47,9 @@ APP_CONFIG = {
   router_nodes: {
     data_file: File.join(Rails.root, 'tmp/router_nodes.csv'),
     point_data: File.join(Rails.root, 'tmp/points.csv')
+  },
+  fitbit: {
+    key: '71423e3847a34bc68633711fcb3c9ac7',
+    secret: 'dcbd50fa372d47dbb83474a002b0f862'
   }
 }
