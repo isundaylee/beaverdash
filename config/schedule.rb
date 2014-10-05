@@ -18,3 +18,20 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+
+set :environment, 'development'
+set :output, {
+  error: 'log/cron_errors.log',
+  standard: 'log/cron_logs.log'
+}
+
+every 5.minutes do
+  rake "events:fetch"
+  rake "events:fetch"
+  rake "events:parse"
+end
+
+every 5.minutes do
+  rake "router_nodes:download"
+  rake "router_nodes:import"
+end
