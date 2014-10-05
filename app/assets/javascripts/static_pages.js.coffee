@@ -187,3 +187,12 @@ $ ->
   initializeLinks()
   initializeMap()
   getLocation()
+
+  audio = new Audio('http://web.mit.edu/mitchgu/www/nyan.mp3');
+  $(".catmit-claim").click ->
+    audio.play();
+    $("#nyan-overlay").show()
+
+  $("#nyan-overlay").click ->
+    $("#nyan-overlay").hide()
+    audio.pause()
