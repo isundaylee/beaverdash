@@ -96,7 +96,7 @@ $ ->
         marker = new google.maps.Marker(
           position: new google.maps.LatLng(42.359655, -71.092006)
           title: "CatMIT!"
-          icon: "http://i.imgur.com/v1hfd2H.gif"
+          icon: "http://ljh.me/nyan-cat.gif"
         )
         marker.setMap maps[id]
 
