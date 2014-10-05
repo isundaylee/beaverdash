@@ -159,7 +159,6 @@ $ ->
       emailTime = new Date(parseFloat($(c).parents('.event').find('.email-time').text()))
       console.log([current.getTime(),emailTime.getTime()])
       diff = current.getTime() - emailTime.getTime()
-      diff = 5*60000
       predictedTime = diff / 60000 +  parseFloat($(c).parents('.event').find('.walking-time').text())
       chance = Math.pow(Math.E, -parseFloat($(c).parents('.event').find('.predators').text())/200 * (predictedTime-1)) * 100
       console.log([diff,predictedTime,chance])
