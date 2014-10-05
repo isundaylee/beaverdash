@@ -122,17 +122,20 @@ footer {
 }
 
 .percentage_bar {
-  background-color: green;
+  background-color: rgb(255, 204, 75);
   width: 70%;
-  height: 100%;
-  padding: 10px 20px;
+  height: 38px;
+  padding: 10px 0px;
   color: white;
   overflow: hidden;
 }
 
+.predator-td {
+}
+
 .percentage_text_container {
   position: absolute;
-  right: 5px;
+  padding: 10px 20px;
 }
 
 a {
