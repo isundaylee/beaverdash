@@ -39,11 +39,13 @@
 }
 
 .titlebar {
-  background-color: #428BCA;
+  font-weight: bold;
+  #background-color: #428BCA;
+  background-color: #EEE29F;
   padding: 5px 10px;
   text-align: center;
   text-transform: uppercase;
-  color: #EEE;
+  color: #8C1515;
 }
 
 .info {
@@ -59,7 +61,8 @@ header h1 {
 }
 
 header {
-  background-color: #428BCA;
+  #background-color: #428BCA;
+  background-color: #8C1515;
   margin-top: 0px;
   margin-bottom: -20px;
 }
@@ -77,9 +80,11 @@ footer div {
 }
 
 footer {
-  background-color: #428BCA;
+  #background-color: #428BCA;
+  background-color: #8C1515;
   margin-top: -20px;
   margin-bottom: -20px;
+  color: #FFF;
 }
 
 .panel {
@@ -97,4 +102,8 @@ footer {
   padding: 10px 20px;
   color: white;
   overflow: hidden;
+}
+
+a {
+  color: #8C1515
 }
