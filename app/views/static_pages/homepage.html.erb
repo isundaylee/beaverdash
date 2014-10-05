@@ -2,29 +2,38 @@
 	<% estimated_predators = e.estimated_predators %>
 	<div class = "row event">
 		<div class = "small-12 column">
-			<div class = "panel">
-				<div class = "row">
-					<div class = "small-12 column">
-						<div class="event_title panel">
-							<h3 class="title"><%= link_to e.title, 'javascript: void(0);' %></h3>
-							<p class="info"><%= e.friendly_location %>. Sent at <%= e.friendly_datetime %></p>
-						</div>
+			<div class="row">
+				<div class="small-12 large-12 columns titlebar_container">
+					<div class="titlebar">
+					Hello
 					</div>
 				</div>
-
+			</div>
+			<div class = "panel">
 				<div class = "row">
 					<div class = "small-12 medium-6 columns">
-						<div class = "panel">
+						<!-- <div class = "panel"> -->
 							<span class="lat"><%= e.lat %></span>
 							<span class="lon"><%= e.lon %></span>
 							<span class="router_points"><%= estimated_predators[1].to_json %></span>
 							<!-- <br><img src="http://placehold.it/500x500&text=Image"><br> -->
 							<div class="map-canvas" id="map-<%= i %>">
 							</div>
-						</div>
+						<!-- </div> -->
 					</div>
 
 					<div class="small-12 medium-6 columns">
+						<table>
+							<tbody>
+								<tr>
+									<td>
+										<h5 class="title"><b><%= link_to e.title, 'javascript: void(0);' %></b></h5>
+										<p class="info"><%= e.friendly_location %>. Sent at <%= e.friendly_datetime %></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
 						<table>
 							<tbody>
 								<tr>
