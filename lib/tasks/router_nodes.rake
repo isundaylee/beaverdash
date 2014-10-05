@@ -14,6 +14,8 @@ namespace :router_nodes do
 
   	command = "curl \"#{url}\" -o \"#{file}\""
   	`#{command}`
+
+    Rails.logger.info "Data points downloaded. "
   end
 
   desc "TODO"
@@ -45,7 +47,7 @@ namespace :router_nodes do
   		RouterNode.create(lat: apn[0], lon: apn[1], users: n)
   	end
 
-  	puts "Successfully imported #{rows.count} data points! "
+  	Rails.logger.info "#{rows.count} data point(s) imported. "
   end
 
 end

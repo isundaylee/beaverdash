@@ -73,6 +73,8 @@ namespace :events do
       Event.create!(title: subject, raw: content_utf8)
     end
 
+    Rails.logger.info "#{count} message(s) fetched from Gmail. "
+
     if count > 0
       Yo.api_key = APP_CONFIG[:yo][:api_key]
       Yo.all!(link: 'http://google.com')
@@ -128,10 +130,14 @@ namespace :events do
   end
 
   task parse: :environment do
+    count = 0
     Event.all(:parsed.ne => true).each do |e|
       puts e.title
       e.parse!
+      count += 1
     end
+
+    Rails.logger.info "#{count} event(s) parsed. "
   end
 
 end
