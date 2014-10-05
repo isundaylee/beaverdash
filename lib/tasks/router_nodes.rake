@@ -26,8 +26,8 @@ namespace :router_nodes do
 
   	apn_rows.each do |r|
       next if r.strip.empty?
-  		i, b, r, lat, lon = r.split(',')
-  		lon.strip!
+  		i, b, r, lon, lat = r.split(',')
+  		lat.strip!
 
   		next if lat == 'None' or lon == 'None'
 

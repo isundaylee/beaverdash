@@ -6,8 +6,6 @@ class StaticPagesController < ApplicationController
     @events = Event.all(valid: true)
   end
 
-
-
   def location
   	if params['building']
   		url = URI.parse('http://m.mit.edu/apis/maps/places/?q=' + params['building'])

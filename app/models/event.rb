@@ -40,6 +40,21 @@ class Event
     "Building #{num.upcase}#{(' ' + loc[:floor].titleize) rescue ''}#{(' ' + loc[:signal_words].map(&:titleize).join('/')) rescue ''}"
   end
 
+  def estimated_predators
+    ans = 0.0
+
+    RouterNode.each do |n|
+      dlat = 85 * (lat - n.lat)
+      dlon = 110 * (lon - n.lon)
+      d = Math.sqrt(dlat * dlat + dlon * dlon)
+
+      p = (d + 3.334) / 2.055
+      ans += 0.04384 * Math.exp(-p * p) * n.users
+    end
+
+    ans
+  end
+
   private
 
     def retrieve_latlon(building)
