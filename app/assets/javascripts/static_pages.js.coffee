@@ -39,35 +39,11 @@ $ ->
       directionDisplays[id] = new google.maps.DirectionsRenderer()
       directionDisplays[id].setMap maps[id]
 
-      circles = $.parseJSON($(c).parent().find('.router_points').text())
-      $(circles).each (i, c) ->
-        options =
-          strokeColor: '#255AA7',
-          strokeOpacity: 0,
-          strokeWeight: 2,
-          fillColor: '#ED2626',
-          fillOpacity: 0.2 + 2 * c[2],
-          map: maps[id],
-          center: new google.maps.LatLng(c[0], c[1]),
-          radius: 10 + 100 * c[2]
-
-        new google.maps.Circle(options)
-
-  display_email = (ev) ->
-    $(ev.target).parents('.event').find('.email_overlay').show()
-
-  initializeLinks = ->
-    $('.title a').click(display_email)
-
-    $('.email_overlay').click ->
-      $('.email_overlay').hide()
-
-  initializeLinks()
   initializeMap()
   getLocation()
 
   $.ajax
-    url: "https://api.uber.com/v1/estimates/price?start_latitude=37.0&start_longitude=-122.0&start_latitude=38.0&start_longitude=-123.0"
+    url: "https://api.uber.com/v1/estimates/price?start_latitude=37.0&start_longitude=-122.0&end_latitude=38.0&end_longitude=-123.0"
     success: (data, status, xhr) ->
       console.log data
     type: 'GET'
