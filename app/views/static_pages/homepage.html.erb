@@ -28,7 +28,7 @@
 								<tr>
 									<td>
 										<h5 class="title"><b><%= link_to e.title, 'javascript: void(0);' %></b></h5>
-										<p class="info"><%= e.friendly_location %>. Sent at <%= e.friendly_datetime %></p>
+										<p class="info"><%= e.friendly_location %>. Sent at <%= e.friendly_datetime %> and <span class="email-time"><%= e.raw_datetime %></span> and <span class="walking-time"></span></p>
 									</td>
 								</tr>
 							</tbody>
@@ -67,7 +67,7 @@
 							<tbody>
 								<tr>
 									<td>
-										Estimated predators: <%= estimated_predators[0].round(2) %></td>
+										Estimated predators: <span class="predators"><%= estimated_predators[0].round(2) %></span></td>
 								</tr>
 							</tbody>
 						</table>
@@ -76,7 +76,7 @@
 							<tbody>
 								<tr>
 									<td class='percentage_bar_container'>
-										<div class='percentage_bar'>Your chance: <span class="percentage"><%= (Random.rand * 100).to_i %></span>%</div>
+										<div class='percentage_text_container'>Chance: ~<span class="percentage"><%= (Random.rand * 100).to_i %></span>%</div><div class='percentage_bar'></div>
 									</td>
 								</tr>
 							</tbody>

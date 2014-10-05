@@ -36,6 +36,7 @@ $ ->
         directionDisplays[id].setDirections result if status is google.maps.DirectionsStatus.OK
 
       getWalkingETA();
+      setPercentages()
 
   getLocation = ->
     if navigator.geolocation
@@ -102,14 +103,23 @@ $ ->
     $('.map-canvas').each (i, c) ->
       latlon = new google.maps.LatLng(parseFloat($(c).parent().find(".lat").text()), parseFloat($(c).parent().find(".lon").text()))
       distance = getDistance(myLatlon, latlon)
-      time = distance * 10
+      time = distance * 12.5
       $(c).parents('.event').find('.walking_eta').text(formatDate(timeAfter(time)))
+      $(c).parents('.event').find('.walking-time').text(time)
 
   setPercentages = ->
     $('.map-canvas').each (i, c) ->
-      $(c).parents('.event').find('.percentage_bar').css('width', $(c).parents('.event').find('.percentage').text() + '%')
+      current = new Date()
+      emailTime = new Date(parseFloat($(c).parents('.event').find('.email-time').text()))
+      console.log([current.getTime(),emailTime.getTime()])
+      diff = current.getTime() - emailTime.getTime()
+      diff = 5*60000
+      predictedTime = diff / 60000 +  parseFloat($(c).parents('.event').find('.walking-time').text())
+      chance = Math.pow(Math.E, -parseFloat($(c).parents('.event').find('.predators').text())/200 * (predictedTime-1)) * 100
+      console.log([diff,predictedTime,chance])
+      $(c).parents('.event').find('.percentage_bar').css('width', chance + '%')
+      $(c).parents('.event').find('.percentage').text(Math.round(chance*100)/100)
 
-  setPercentages()
   initializeLinks()
   initializeMap()
   getLocation()
@@ -141,7 +151,6 @@ $ ->
           uber_eta = "N/A"
       else
         uber_eta = "N/A"
-      console.log eta
     type: 'GET'
     beforeSend: (xhr) ->
       xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")

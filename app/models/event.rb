@@ -42,6 +42,10 @@ class Event
     Time.at(id.generation_time).localtime.strftime('%l:%M %p').strip
   end
 
+  def raw_datetime
+    Time.at(id.generation_time).to_i
+  end
+
   def estimated_predators
     Rails.cache.fetch(['estimated_predators', id.to_s, RouterNode.first.id.generation_time]) do
       ans = 0.0

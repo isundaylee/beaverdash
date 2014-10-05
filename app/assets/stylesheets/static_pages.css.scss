@@ -118,6 +118,7 @@ footer {
 
 .percentage_bar_container {
   padding: 0 !important;
+  position: relative; 
 }
 
 .percentage_bar {
@@ -127,6 +128,11 @@ footer {
   padding: 10px 20px;
   color: white;
   overflow: hidden;
+}
+
+.percentage_text_container {
+  position: absolute;
+  right: 5px;
 }
 
 a {
