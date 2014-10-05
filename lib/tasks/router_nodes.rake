@@ -1,4 +1,5 @@
 namespace :router_nodes do
+  require 'open-uri'
 	task setup: :environment do
 		file = APP_CONFIG[:router_nodes][:point_data]
 		url = 'https://www.dropbox.com/sh/mym5ux7yb3vjqs3/AAA7rXMvumWpkCHjuEGLZUPka/wifi_access_point_data.csv?dl=1'
