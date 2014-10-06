@@ -63,3 +63,9 @@ gem 'fitbit'
 
 # Uses Unicorn for server
 gem 'unicorn'
+
+# Deployment
+gem 'recap'
+
+# Foreman
+gem 'foreman'
