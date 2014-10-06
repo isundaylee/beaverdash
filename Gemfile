@@ -60,3 +60,6 @@ gem 'yo-ruby'
 
 # Fitbit
 gem 'fitbit'
+
+# Uses Unicorn for server
+gem 'unicorn'
