@@ -18,14 +18,14 @@ class Event
     bn = parse_building_number(title) || parse_building_number(raw)
     latlon = retrieve_latlon(bn[:building] || bn[:city]) unless bn.nil?
 
-    location = bn,
-    parsed = true,
-    valid = !bn.nil?
+    self.location = bn
+    self.parsed = true
+    self.valid = !bn.nil?
 
     unless bn.nil?
-      lat = latlon[0],
-      lon = latlon[1],
-      foods = parse_food(title + " " + raw)
+      self.lat = latlon[0]
+      self.lon = latlon[1]
+      self.foods = parse_food(title + " " + raw)
     end
 
     save
