@@ -19,7 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-set :environment, 'development'
 set :output, {
   error: 'log/cron_errors.log',
   standard: 'log/cron_logs.log'
