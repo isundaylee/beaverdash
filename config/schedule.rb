@@ -27,9 +27,7 @@ set :output, {
 }
 
 every 1.minutes do
-  rake "events:fetch"
-  rake "events:fetch"
-  rake "events:parse"
+  rake "events:fetch_and_parse"
 end
 
 every 5.minutes do

@@ -144,4 +144,9 @@ namespace :events do
     Rails.logger.info "#{count} event(s) parsed. "
   end
 
+  task fetch_and_parse: :environment do
+    Rake::Task["events:fetch"].execute
+    Rake::Task["events:parse"].execute
+  end
+
 end
