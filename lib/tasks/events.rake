@@ -135,7 +135,7 @@ namespace :events do
 
     if valids > 0
       Yo.api_key = APP_CONFIG[:yo][:api_key]
-      Yo.all!(link: 'http://google.com')
+      Yo.all!(link: 'http://bd.ljh.me')
 
       puts 'Yo-ed our lovely subscribers! '
       Rails.logger.info "#{valids} valid events. Sent a yo. "
