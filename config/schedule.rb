@@ -19,6 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 
+env :PATH, ENV['PATH']
+
 set :output, {
   error: 'log/cron_errors.log',
   standard: 'log/cron_logs.log'
