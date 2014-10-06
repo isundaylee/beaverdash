@@ -12,6 +12,8 @@ class Event
   key :parsed, Boolean
   key :valid, Boolean
 
+  timestamps!
+
   def parse!
     bn = parse_building_number(title) || parse_building_number(raw)
     latlon = retrieve_latlon(bn[:building] || bn[:city]) unless bn.nil?
@@ -27,6 +29,8 @@ class Event
       lon: latlon[1],
       foods: parse_food(title + " " + raw)
     ) unless bn.nil?
+
+    save
   end
 
   def friendly_location
