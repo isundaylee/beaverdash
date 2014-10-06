@@ -26,7 +26,7 @@ set :output, {
   standard: 'log/cron_logs.log'
 }
 
-every 5.minutes do
+every 1.minutes do
   rake "events:fetch"
   rake "events:fetch"
   rake "events:parse"
