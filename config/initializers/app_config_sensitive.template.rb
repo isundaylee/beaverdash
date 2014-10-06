@@ -6,5 +6,8 @@
 #   fitbit: {
 #     key: 'FITBIT_KEY',
 #     secret: 'FITBIT_SECRET'
+#   },
+#   uber: {
+#    token: 'UBER_TOKEN'
 #   }
 # })

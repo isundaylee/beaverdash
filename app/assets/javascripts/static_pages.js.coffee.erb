@@ -83,7 +83,7 @@ $ ->
                 high = parseFloat(t['high_estimate'])
             $(c).parents('.event').find('.ubering_exp').text('$' + (low + high) / 2)
           beforeSend: (xhr) ->
-            xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
+            xhr.setRequestHeader('Authorization', "Token <%= APP_CONFIG[:uber][:token] %>")
 
       directionsService.route request, (result, status) ->
         duration = result.routes[0].legs[0].duration.value
