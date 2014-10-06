@@ -20,7 +20,7 @@ namespace :router_nodes do
 
   desc "TODO"
   task import: :environment do
-  	all_rows = File.read(APP_CONFIG[:router_nodes][:data_file]).lines
+  	all_rows = File.foreach(APP_CONFIG[:router_nodes][:data_file]).first(6000)
   	latest_timestamp = all_rows[0].split(',')[0]
   	rows = all_rows.select { |r| r.split(',')[0] == latest_timestamp }
 
