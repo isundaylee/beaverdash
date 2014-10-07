@@ -41,7 +41,7 @@ class Event
       "#{loc[:building]}-#{loc[:room]}" :
       "#{loc[:building]}"
 
-    signals = loc[:signal_words].empty? ?
+    signals = (loc[:signal_words].nil? || loc[:signal_words].empty?) ?
       '' :
       loc[:signal_words].map(&:titleize).join('/')
 
