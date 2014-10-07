@@ -177,8 +177,6 @@ class Event
         !i[0].nil?
       end
 
-      puts matches.inspect
-
       matches.empty? ?
         nil :
         text[matches.first[1] + 1 ... matches.last[1]+matches.last[0][0].length - 1]
