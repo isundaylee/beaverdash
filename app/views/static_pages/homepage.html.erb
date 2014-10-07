@@ -104,31 +104,11 @@
 								<tbody>
 									<tr>
 										<td class='percentage_bar_container'>
-											<div class='percentage_text_container'>Chance: <%= easter_egg ? 'Null Set!' : '~<span class="percentage">...</span>%'.html_safe %></div><div class="percentage_bar" style="width: 0"></div>
+											<div class='percentage_text_container'>Chance: <%= easter_egg ? 'Null Set!' : '<span class="percentage">...</span>%'.html_safe %></div><div class="percentage_bar" style="width: 0"></div>
 										</td>
 									</tr>
-								<% end %>
-							</tbody>
-						</table>
-
-						<table>
-							<tbody>
-								<tr>
-									<td class="predator-td">
-										Estimated competitors: <span class="predators"><%= easter_egg ? 'Over 9000!!!' : estimated_predators[0].round(2) %></span></td>
-								</tr>
-							</tbody>
-						</table>
-
-						<table>
-							<tbody>
-								<tr>
-									<td class='percentage_bar_container'>
-										<div class='percentage_text_container'>Chance: <%= easter_egg ? 'Null Set!' : '<span class="percentage">...</span>%'.html_safe %></div><div class="percentage_bar" style="width: 0"></div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+								</tbody>
+							</table>
 							<%= '<span class="button small catmit-claim">CLAIM THIS CATMIT IMMEDIATELY!!!</span>'.html_safe if easter_egg %>
 						</div>
 					</div>
