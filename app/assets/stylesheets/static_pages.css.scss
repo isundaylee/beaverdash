@@ -35,9 +35,11 @@
   z-index: 100;
 
   p {
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
     display: block;
     margin: 15px auto;
+    padding: 20px;
     color: white;
   }
 }
