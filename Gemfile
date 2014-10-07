@@ -69,3 +69,6 @@ gem 'recap'
 
 # Foreman
 gem 'foreman'
+
+# Passing data between Rails and JavaScript
+gem 'gon'

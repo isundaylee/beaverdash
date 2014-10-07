@@ -15,18 +15,19 @@ $ ->
       /iPhone|iPad|iPod/i.test navigator.userAgent
 
   calculateCalories = (distance, c) ->
-    Math.round(parseFloat($('.weight').text()) * c * (distance * 1.0 / 1600))
+    Math.round(gon.weight * c * (distance * 1.0 / 1600))
 
   showPosition = (position) ->
     myLatlon = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
 
     $('.map-canvas').each (i, c) ->
-      id = $(c).attr('id')
+      outer = $(c).parents('.event')
+      id = $(outer).data('id')
 
-      latlon = new google.maps.LatLng(parseFloat($(c).parent().find(".lat").text()), parseFloat($(c).parent().find(".lon").text()))
+      latlon = new google.maps.LatLng(gon.events[id].lat, gon.events[id].lon)
 
       if isMobile.iOS() || isMobile.Android()
-        $(c).parents('.event').find('.ubering_link a').attr('href', 'uber://?action=setPickup&pickup=my_location')
+        outer.find('.ubering_link a').attr('href', 'uber://?action=setPickup&pickup=my_location')
 
       request =
         origin: myLatlon
@@ -49,15 +50,13 @@ $ ->
       directionsService.route bike_request, (result, status) ->
         duration = result.routes[0].legs[0].duration.value
         length = result.routes[0].legs[0].distance.value
-        $(c).parents('.event').find('.biking_eta').text(formatDate(timeAfter(duration * 1.0 / 60)))
-        if $('.has_fitbit').length > 0
-          $(c).parents('.event').find('.biking_link a').attr('href', 'http://localhost:3000/log?activity=biking&duration=' + duration + '&distance=' + length + '&calories=' + calculateCalories(length, 0.28))
-        $(c).parents('.event').find('.biking_exp').text(calculateCalories(length, 0.28) + ' cal')
+        outer.find('.biking_eta').text(formatDate(timeAfter(duration * 1.0 / 60)))
+        if gon.has_fitbit
+          outer.find('.biking_link a').attr('href', 'http://localhost:3000/log?activity=biking&duration=' + duration + '&distance=' + length + '&calories=' + calculateCalories(length, 0.28))
+        outer.find('.biking_exp').text(calculateCalories(length, 0.28) + ' cal')
 
       directionsService.route drive_request, (result, status) ->
         duration = result.routes[0].legs[0].duration.value
-
-        console.log "https://api.uber.com/v1/estimates/time?start_latitude=" + myLatlon.lat() + "&start_longitude=" + myLatlon.lng()
 
         $.ajax
           url: "https://api.uber.com/v1/estimates/time?start_latitude=" + latlon.lat() + "&start_longitude=" + latlon.lng()
@@ -67,7 +66,7 @@ $ ->
             $(data.times).each (i, t) ->
               if t['display_name'] == 'uberX'
                 uber_eta = t['estimate']
-            $(c).parents('.event').find('.ubering_eta').text(formatDate(timeAfter((duration + uber_eta) * 1.0 / 60)))
+            outer.find('.ubering_eta').text(formatDate(timeAfter((duration + uber_eta) * 1.0 / 60)))
           beforeSend: (xhr) ->
             xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
 
@@ -81,19 +80,19 @@ $ ->
               if t['display_name'] == 'uberX'
                 low = parseFloat(t['low_estimate'])
                 high = parseFloat(t['high_estimate'])
-            $(c).parents('.event').find('.ubering_exp').text('$' + (low + high) / 2)
+            outer.find('.ubering_exp').text('$' + (low + high) / 2)
           beforeSend: (xhr) ->
             xhr.setRequestHeader('Authorization', "Token <%= APP_CONFIG[:uber][:token] %>")
 
       directionsService.route request, (result, status) ->
         duration = result.routes[0].legs[0].duration.value
         length = result.routes[0].legs[0].distance.value
-        $(c).parents('.event').find('.walking_exp').text(calculateCalories(length, 0.53) + ' cal')
-        if $('.has_fitbit').length > 0
-          $(c).parents('.event').find('.walking_link a').attr('href', 'http://localhost:3000/log?activity=walking&duration=' + duration + '&distance=' + length + '&calories=' + calculateCalories(length, 0.53))
+        outer.find('.walking_exp').text(calculateCalories(length, 0.53) + ' cal')
+        if gon.has_fitbit
+          outer.find('.walking_link a').attr('href', 'http://localhost:3000/log?activity=walking&duration=' + duration + '&distance=' + length + '&calories=' + calculateCalories(length, 0.53))
         directionDisplays[id].setDirections result if status is google.maps.DirectionsStatus.OK
 
-      if $(c).parents('.event').find('.catmit').text() == "true"
+      if outer.find('.catmit').text() == "true"
         marker = new google.maps.Marker(
           position: new google.maps.LatLng(42.359655, -71.092006)
           title: "CatMIT!"
@@ -101,7 +100,7 @@ $ ->
         )
         marker.setMap maps[id]
 
-      getWalkingETA();
+      getWalkingETA()
       setPercentages()
 
   getLocation = ->
@@ -112,14 +111,17 @@ $ ->
 
   initializeMap = ->
     $('.map-canvas').each (i, c) ->
-      id = $(c).attr('id')
+      outer = $(c).parents('.event')
+      id = $(outer).data('id')
+
       $(c).css('height', $(c).css('width'))
-      latlon = new google.maps.LatLng(parseFloat($(c).parent().find(".lat").text()), parseFloat($(c).parent().find(".lon").text()))
+
+      latlon = new google.maps.LatLng(gon.events[id].lat, gon.events[id].lat)
       maps[id] = new google.maps.Map(c)
       directionDisplays[id] = new google.maps.DirectionsRenderer()
       directionDisplays[id].setMap maps[id]
 
-      circles = $.parseJSON($(c).parent().find('.router_points').text())
+      circles = gon.events[id].router_points
       $(circles).each (i, c) ->
         options =
           strokeColor: '#255AA7',
@@ -169,24 +171,28 @@ $ ->
 
   getWalkingETA = ->
     $('.map-canvas').each (i, c) ->
-      latlon = new google.maps.LatLng(parseFloat($(c).parent().find(".lat").text()), parseFloat($(c).parent().find(".lon").text()))
+      outer = $(c).parents('.event')
+      id = $(outer).data('id')
+
+      latlon = new google.maps.LatLng(gon.events[id].lat, gon.events[id].lon)
       distance = getDistance(myLatlon, latlon)
       time = distance * 12.5
-      $(c).parents('.event').find('.walking_eta').text(formatDate(timeAfter(time)))
-      $(c).parents('.event').find('.walking-time').text(time)
+      outer.find('.walking_eta').text(formatDate(timeAfter(time)))
+      gon.events[id].walking_time = time
 
   setPercentages = ->
     $('.map-canvas').each (i, c) ->
+      outer = $(c).parents('.event')
+      id = $(outer).data('id')
+
       current = new Date()
-      emailTime = new Date(parseFloat($(c).parents('.event').find('.email-time').text())*1000)
-      console.log([current.getTime(),emailTime.getTime()])
+      emailTime = new Date(gon.events[id].email_time * 1000)
       diff = current.getTime() - emailTime.getTime()
-      predictedTime = diff / 60000 +  parseFloat($(c).parents('.event').find('.walking-time').text())
-      chance = Math.pow(Math.E, -parseFloat($(c).parents('.event').find('.predators').text())/400 * (predictedTime-1)) * 100
+      predictedTime = diff / 60000 + gon.events[id].walking_time
+      chance = Math.pow(Math.E, -gon.events[id].predators/400 * (predictedTime-1)) * 100
       chance = Math.min(chance,99.99)
-      console.log([diff,predictedTime,chance])
-      $(c).parents('.event').find('.percentage_bar').css('width', chance + '%')
-      $(c).parents('.event').find('.percentage').text(Math.round(chance*100)/100)
+      outer.find('.percentage_bar').css('width', chance + '%')
+      outer.find('.percentage').text(Math.round(chance*100)/100)
 
   initializeLinks()
   initializeMap()

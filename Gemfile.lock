@@ -77,6 +77,11 @@ GEM
       sass (>= 3.2.0)
     gmail_xoauth (0.4.1)
       oauth (>= 0.3.6)
+    gon (5.2.0)
+      actionpack (>= 2.3.0)
+      json
+      multi_json
+      request_store (>= 1.0.5)
     google-api-client (0.7.1)
       addressable (>= 2.3.2)
       autoparse (>= 0.3.3)
@@ -159,6 +164,7 @@ GEM
       capistrano (~> 2.9)
       open4
       thor
+    request_store (1.1.0)
     retriable (1.4.1)
     sass (3.2.19)
     sass-rails (4.0.3)
@@ -220,6 +226,7 @@ DEPENDENCIES
   foreman
   foundation-rails
   gmail!
+  gon
   google-api-client
   jbuilder (~> 2.0)
   jquery-rails

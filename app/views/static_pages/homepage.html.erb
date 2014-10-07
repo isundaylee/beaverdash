@@ -6,15 +6,11 @@
 		</div>
 	</div>
 <% else %>
-	<span class="weight"><%= @weight %></span>
-	<% if @fitbit_link.nil? %>
-		<span class="has_fitbit"></span>
-	<% end %>
 	<% @events.each_with_index do |e, i| %>
 		<% estimated_predators = e.estimated_predators %>
 		<% easter_egg = true if e.friendly_location == "Building 10-DOME" %>
-		<div class = "row event">
-			<div class = "small-12 column">
+		<div class="row event" data-id="<%= i %>">
+			<div class="small-12 column">
 				<div class="row">
 					<div class="small-12 large-12 columns titlebar_container">
 						<div class="titlebar">
@@ -26,9 +22,6 @@
 					<div class = "row">
 						<div class = "small-12 medium-6 columns">
 							<!-- <div class = "panel"> -->
-								<span class="lat"><%= e.lat %></span>
-								<span class="lon"><%= e.lon %></span>
-								<span class="router_points"><%= estimated_predators[1].to_json %></span>
 								<!-- <br><img src="http://placehold.it/500x500&text=Image"><br> -->
 								<div class="map-canvas" id="map-<%= i %>">
 								</div>
@@ -41,7 +34,7 @@
 									<tr>
 										<td>
 											<h5 class="title"><b><%= link_to e.friendly_foods, 'javascript: void(0);' %></b></h5>
-											<p class="info"><%= e.friendly_location %>. Sent at <%= e.friendly_datetime %><span class="email-time"><%= e.raw_datetime %></span><span class="walking-time"></span></p>
+											<p class="info"><%= e.friendly_location %>. Sent at <%= e.friendly_datetime %><span class="walking-time"></span></p>
 										</td>
 									</tr>
 								</tbody>
