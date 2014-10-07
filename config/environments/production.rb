@@ -76,4 +76,8 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # Cache settings
+  config.action_controller.perform_caching = true
+  config.cache_store = :dalli_store, 'localhost', { :namespace => 'beaverdash' }
 end

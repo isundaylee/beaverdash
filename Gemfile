@@ -72,3 +72,6 @@ gem 'foreman'
 
 # Passing data between Rails and JavaScript
 gem 'gon'
+
+# Memcached
+gem 'dalli'
