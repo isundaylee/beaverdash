@@ -2,6 +2,7 @@ class Event
   include MongoMapper::Document
 
   scope :active, where(valid: true, :created_at.gte => 6.hours.ago).order(created_at: :desc).limit(3)
+  scope :valid, where(valid: true)
 
   key :title, String
   key :raw, String
@@ -14,12 +15,20 @@ class Event
   key :parsed, Boolean
   key :valid, Boolean
 
+  key :claimed, Boolean
+
   timestamps!
 
   DELIMITER = '[^a-z0-9-]'
+  REPLY_REGEX = /^re:(.*)/
 
   def parse!
-    if /^re:/ =~ title
+    parse_for_event!
+    parse_for_response!
+  end
+
+  def parse_for_event!
+    if REPLY_REGEX =~ title
       self.valid = false
       self.parsed = true
 
@@ -42,6 +51,20 @@ class Event
     end
 
     save
+  end
+
+  def parse_for_response!
+    return unless REPLY_REGEX =~ title
+
+    if parse_claimed(raw)
+      original = REPLY_REGEX.match(title)[1].strip
+      event = Event.valid.select { |e| e.title.include?(original) }
+
+      unless event.empty?
+        event.first.claimed = true
+        event.first.save
+      end
+    end
   end
 
   def friendly_location
@@ -124,24 +147,32 @@ class Event
       match ? "#{match[1]} floor" : nil
     end
 
+    def words_reg(words)
+      "(#{words.join('|')})".downcase
+    end
+
     def buildings_reg
-      "(#{APP_CONFIG[:parse][:building_numbers].join('|')})".downcase
+      words_reg(APP_CONFIG[:parse][:building_numbers])
     end
 
     def buildings_prefixed_reg
-      "(#{APP_CONFIG[:parse][:building_numbers_prefixed].join('|')})".downcase
+      words_reg(APP_CONFIG[:parse][:building_numbers_prefixed])
     end
 
     def all_buildings_reg
-      "(#{(APP_CONFIG[:parse][:building_numbers] + APP_CONFIG[:parse][:building_numbers_prefixed]).join('|')})".downcase
+      words_reg(APP_CONFIG[:parse][:building_numbers] + APP_CONFIG[:parse][:building_numbers_prefixed])
     end
 
     def building_clue_words_reg
-      "(#{APP_CONFIG[:parse][:building_clue_words].join('|')})".downcase
+      words_reg(APP_CONFIG[:parse][:building_clue_words])
     end
 
     def building_names_reg
-      "(#{APP_CONFIG[:parse][:building_names].keys.join('|')})".downcase
+      words_reg(APP_CONFIG[:parse][:building_names].keys)
+    end
+
+    def claimed_words_reg
+      words_reg(APP_CONFIG[:parse][:claimed_words])
     end
 
     def parse_building_number(text)
@@ -212,5 +243,13 @@ class Event
       matches.empty? ?
         nil :
         text[matches.first[1] + 1 ... matches.last[1]+matches.last[0][0].length - 1]
+    end
+
+    def parse_claimed(text)
+      text = " #{text} ".downcase
+
+      claimed_reg = Regexp.new(DELIMITER + claimed_words_reg + DELIMITER)
+
+      return claimed_reg.match(text)
     end
 end
