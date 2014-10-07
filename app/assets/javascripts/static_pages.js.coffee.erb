@@ -153,10 +153,12 @@ $ ->
     return min + ':' + sec
 
   formatDate = (d) ->
-    hr = d.getHours() % 12
+    hr = d.getHours()
     min = d.getMinutes()
     min = "0" + min  if min < 10
-    ampm = (if hr < 12 then "am" else "pm")
+    ampm = (if hr < 12 then "AM" else "PM")
+    hr = hr % 12
+    hr = 12 if hr == 0
     hr + ":" + min + " " + ampm
 
   timeAfter = (time) ->
