@@ -173,7 +173,7 @@ class Event
     end
 
     def foods_reg
-      "(#{APP_CONFIG[:parse][:foods].join('|')})".downcase
+      "(#{(APP_CONFIG[:parse][:foods] + APP_CONFIG[:parse][:foods].map(&:pluralize)).join('|')})".downcase
     end
 
     def parse_food(text)
