@@ -48,6 +48,13 @@ namespace :router_nodes do
   	end
 
   	Rails.logger.info "#{rows.count} data point(s) imported. "
+
+    Rake::Task["events:cache_predator_data"].execute
+  end
+
+  task download_and_import: :environment do
+    Rake::Task["router_nodes:download"].execute
+    Rake::Task["router_nodes:import"].execute
   end
 
 end

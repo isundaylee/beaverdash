@@ -5,7 +5,7 @@ class StaticPagesController < ApplicationController
   DEFAULT_WEIGHT = 150
 
   def homepage
-    @events = Event.all(valid: true, :updated_at.gte => 6.hours.ago).sort_by { |e| e.id.generation_time }.reverse.first(3)
+    @events = Event.active.all
 
     js_events = @events.map do |e|
       {

@@ -142,6 +142,8 @@ namespace :events do
     end
 
     Rails.logger.info "#{count} event(s) parsed. "
+
+    Rake::Task["events:cache_predator_data"].execute
   end
 
   task parse_all: :environment do
@@ -151,6 +153,11 @@ namespace :events do
   task fetch_and_parse: :environment do
     Rake::Task["events:fetch"].execute
     Rake::Task["events:parse"].execute
+  end
+
+  task cache_predator_data: :environment do
+    Event.active.each(&:estimated_predators)
+    Rails.logger.info 'Predators data pre-cached. '
   end
 
 end

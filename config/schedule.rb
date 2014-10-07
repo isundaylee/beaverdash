@@ -31,6 +31,5 @@ every 1.minutes do
 end
 
 every 5.minutes do
-  rake "router_nodes:download"
-  rake "router_nodes:import"
+  rake "router_nodes:download_and_import"
 end
