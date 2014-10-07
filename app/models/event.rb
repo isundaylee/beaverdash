@@ -28,7 +28,7 @@ class Event
   end
 
   def parse_for_event!
-    if REPLY_REGEX =~ title
+    if REPLY_REGEX =~ title.downcase
       self.valid = false
       self.parsed = true
 
@@ -54,11 +54,11 @@ class Event
   end
 
   def parse_for_response!
-    return unless REPLY_REGEX =~ title
+    return unless REPLY_REGEX =~ title.downcase
 
     if parse_claimed(raw)
-      original = REPLY_REGEX.match(title)[1].strip
-      event = Event.valid.select { |e| e.title.include?(original) }
+      original = REPLY_REGEX.match(title.downcase)[1].strip
+      event = Event.valid.select { |e| e.title.downcase.include?(original) }
 
       unless event.empty?
         event.first.claimed = true
