@@ -80,7 +80,7 @@ class Event
   end
 
   def friendly_foods
-    foods.capitalize rescue ''
+    foods.capitalize rescue title
   end
 
   def distance_from(nlat, nlon)
