@@ -126,6 +126,18 @@ class Event
       "(#{APP_CONFIG[:parse][:building_numbers].join('|')})".downcase
     end
 
+    def buildings_prefixed_reg
+      "(#{APP_CONFIG[:parse][:building_numbers_prefixed].join('|')})".downcase
+    end
+
+    def all_buildings_reg
+      "(#{(APP_CONFIG[:parse][:building_numbers] + APP_CONFIG[:parse][:building_numbers_prefixed]).join('|')})".downcase
+    end
+
+    def building_clue_words_reg
+      "(#{APP_CONFIG[:parse][:building_clue_words].join('|')})".downcase
+    end
+
     def building_names_reg
       "(#{APP_CONFIG[:parse][:building_names].keys.join('|')})".downcase
     end
@@ -139,7 +151,7 @@ class Event
         room: "dome"
       } if /catmit/ =~ text
 
-      dashed_regex = Regexp.new(DELIMITER + buildings_reg + '-((g|)[0-9]{3,})' + DELIMITER)
+      dashed_regex = Regexp.new(DELIMITER + all_buildings_reg + '-((g|)[0-9]{3,})' + DELIMITER)
       dashed_match = dashed_regex.match(text)
 
       return {
@@ -147,11 +159,20 @@ class Event
         room: dashed_match[2]
       } if dashed_match
 
-      num_only_regex = Regexp.new(DELIMITER + buildings_reg + DELIMITER)
+      prefixed_num_regex = Regexp.new(DELIMITER + buildings_prefixed_reg + DELIMITER)
+      prefixed_num_match = prefixed_num_regex.match(text)
+
+      return {
+        building: prefixed_num_match[1],
+        floor: extract_floor(text),
+        signal_words: APP_CONFIG[:parse][:location_signal_words].select { |w| text =~ Regexp.new(w) }
+      } if prefixed_num_match
+
+      num_only_regex = Regexp.new(DELIMITER + building_clue_words_reg + DELIMITER + buildings_reg + DELIMITER)
       num_only_match = num_only_regex.match(text)
 
       return {
-        building: num_only_match[1],
+        building: num_only_match[2],
         floor: extract_floor(text),
         signal_words: APP_CONFIG[:parse][:location_signal_words].select { |w| text =~ Regexp.new(w) }
       } if num_only_match
