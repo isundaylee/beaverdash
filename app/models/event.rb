@@ -17,6 +17,15 @@ class Event
   DELIMITER = '[^a-z0-9-]'
 
   def parse!
+    if /^re:/ =~ title
+      self.valid = false
+      self.parsed = true
+
+      save
+
+      return
+    end
+
     bn = parse_building_number(title) || parse_building_number(raw)
     latlon = retrieve_latlon(bn[:building] || bn[:city]) unless bn.nil?
 
