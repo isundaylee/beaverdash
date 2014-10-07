@@ -41,7 +41,11 @@ class Event
       "#{loc[:building]}-#{loc[:room]}" :
       "#{loc[:building]}"
 
-    "Building #{num.upcase}#{(' ' + loc[:floor].titleize) rescue ''}#{(' ' + loc[:signal_words].map(&:titleize).join('/')) rescue ''}"
+    signals = loc[:signal_words].empty? ?
+      '' :
+      loc[:signal_words].map(&:titleize).join('/')
+
+    "Building #{num.upcase}#{(' ' + loc[:floor].titleize) rescue ''}#{signals}"
   end
 
   def friendly_datetime
