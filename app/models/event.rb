@@ -7,12 +7,14 @@ class Event
   key :location, Hash
   key :lat, Float
   key :lon, Float
-  key :foods, Array
+  key :foods, String
 
   key :parsed, Boolean
   key :valid, Boolean
 
   timestamps!
+
+  DELIMITER = '[^a-z0-9-]'
 
   def parse!
     bn = parse_building_number(title) || parse_building_number(raw)
@@ -25,7 +27,7 @@ class Event
     unless bn.nil?
       self.lat = latlon[0]
       self.lon = latlon[1]
-      self.foods = parse_food(title + " " + raw)
+      self.foods = parse_food(raw) || parse_food(title)
     end
 
     save
@@ -78,11 +80,7 @@ class Event
   end
 
   def friendly_foods
-    arr = foods
-    return title if arr.empty?
-    foods[-1] = 'and ' + foods[-1] if foods.size > 1
-    foods[0].capitalize!
-    return foods.join(', ')
+    foods.capitalize rescue ''
   end
 
   def distance_from(nlat, nlon)
@@ -126,14 +124,13 @@ class Event
     def parse_building_number(text)
       text.downcase!
       text = " #{text} "
-      delimiter = '[^a-z0-9-]'
 
       return {
         building: "10",
         room: "dome"
       } if /catmit/ =~ text
 
-      dashed_regex = Regexp.new(delimiter + buildings_reg + '-((g|)[0-9]{3,})' + delimiter)
+      dashed_regex = Regexp.new(DELIMITER + buildings_reg + '-((g|)[0-9]{3,})' + DELIMITER)
       dashed_match = dashed_regex.match(text)
 
       return {
@@ -141,7 +138,7 @@ class Event
         room: dashed_match[2]
       } if dashed_match
 
-      num_only_regex = Regexp.new(delimiter + buildings_reg + delimiter)
+      num_only_regex = Regexp.new(DELIMITER + buildings_reg + DELIMITER)
       num_only_match = num_only_regex.match(text)
 
       return {
@@ -150,7 +147,7 @@ class Event
         signal_words: APP_CONFIG[:parse][:location_signal_words].select { |w| text =~ Regexp.new(w) }
       } if num_only_match
 
-      name_regex = Regexp.new(delimiter + building_names_reg + delimiter)
+      name_regex = Regexp.new(DELIMITER + building_names_reg + DELIMITER)
       name_match = name_regex.match(text)
 
       return {
@@ -166,7 +163,24 @@ class Event
       return nil
     end
 
+    def foods_reg
+      "(#{APP_CONFIG[:parse][:foods].join('|')})".downcase
+    end
+
     def parse_food(text)
-      APP_CONFIG[:parse][:foods].select { |f| Regexp.new("\\b" + f + "\\b") =~ text or Regexp.new("\\b" + f.pluralize + "\\b") =~ text }
+      text = " #{text.downcase} "
+      reg = Regexp.new("\\A" + DELIMITER + foods_reg + DELIMITER)
+
+      matches = (0...text.length).map do |i|
+        [reg.match(text[i...text.length]), i]
+      end.select do |i|
+        !i[0].nil?
+      end
+
+      puts matches.inspect
+
+      matches.empty? ?
+        nil :
+        text[matches.first[1] + 1 ... matches.last[1]+matches.last[0][0].length - 1]
     end
 end
