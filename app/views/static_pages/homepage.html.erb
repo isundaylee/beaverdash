@@ -1,83 +1,111 @@
-<span class="weight"><%= @weight %></span>
-<% if @fitbit_link.nil? %>
-	<span class="has_fitbit"></span>
-<% end %>
-<% @events.each_with_index do |e, i| %>
-	<% estimated_predators = e.estimated_predators %>
-	<% easter_egg = true if e.friendly_location == "Building 10-DOME" %>
-	<div class = "row event">
-		<div class = "small-12 column">
-			<div class="row">
-				<div class="small-12 large-12 columns titlebar_container">
-					<div class="titlebar">
-						<%= e.title %>
+<% if @events.empty? %>
+	<div class="row">
+		<div class="small-12 large-12 columns no_events">
+			<img src="<%= image_path('sad_face.png') %>" alt="Sad face :(">
+			<p>No events within the last 6 hours :(</p>
+		</div>
+	</div>
+<% else %>
+	<span class="weight"><%= @weight %></span>
+	<% if @fitbit_link.nil? %>
+		<span class="has_fitbit"></span>
+	<% end %>
+	<% @events.each_with_index do |e, i| %>
+		<% estimated_predators = e.estimated_predators %>
+		<% easter_egg = true if e.friendly_location == "Building 10-DOME" %>
+		<div class = "row event">
+			<div class = "small-12 column">
+				<div class="row">
+					<div class="small-12 large-12 columns titlebar_container">
+						<div class="titlebar">
+							<%= e.title %>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class = "panel">
-				<div class = "row">
-					<div class = "small-12 medium-6 columns">
-						<!-- <div class = "panel"> -->
-							<span class="lat"><%= e.lat %></span>
-							<span class="lon"><%= e.lon %></span>
-							<span class="router_points"><%= estimated_predators[1].to_json %></span>
-							<!-- <br><img src="http://placehold.it/500x500&text=Image"><br> -->
-							<div class="map-canvas" id="map-<%= i %>">
-							</div>
-						<!-- </div> -->
-					</div>
+				<div class = "panel">
+					<div class = "row">
+						<div class = "small-12 medium-6 columns">
+							<!-- <div class = "panel"> -->
+								<span class="lat"><%= e.lat %></span>
+								<span class="lon"><%= e.lon %></span>
+								<span class="router_points"><%= estimated_predators[1].to_json %></span>
+								<!-- <br><img src="http://placehold.it/500x500&text=Image"><br> -->
+								<div class="map-canvas" id="map-<%= i %>">
+								</div>
+							<!-- </div> -->
+						</div>
 
-					<div class="small-12 medium-6 columns">
-						<table>
-							<tbody>
-								<tr>
-									<td>
-										<h5 class="title"><b><%= link_to e.friendly_foods, 'javascript: void(0);' %></b></h5>
-										<p class="info"><%= e.friendly_location %>. Sent at <%= e.friendly_datetime %><span class="email-time"><%= e.raw_datetime %></span><span class="walking-time"></span></p>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<span class="catmit" style="display:none"><%= "true" if easter_egg %></span>
+						<div class="small-12 medium-6 columns">
+							<table>
+								<tbody>
+									<tr>
+										<td>
+											<h5 class="title"><b><%= link_to e.friendly_foods, 'javascript: void(0);' %></b></h5>
+											<p class="info"><%= e.friendly_location %>. Sent at <%= e.friendly_datetime %><span class="email-time"><%= e.raw_datetime %></span><span class="walking-time"></span></p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<span class="catmit" style="display:none"><%= "true" if easter_egg %></span>
 
-						<table>
-							<tbody>
-								<tr>
-									<th>Transport</th>
-									<th>ETA</th>
-									<th>Cost</th>
-								</tr>
-								<% if easter_egg %>
+							<table>
+								<tbody>
 									<tr>
-										<td>Climbing</td>
-										<td>Too long</td>
-										<td>All feeling in your limbs</td>
+										<th>Transport</th>
+										<th>ETA</th>
+										<th>Cost</th>
 									</tr>
+									<% if easter_egg %>
+										<tr>
+											<td>Climbing</td>
+											<td>Too long</td>
+											<td>All feeling in your limbs</td>
+										</tr>
+										<tr>
+											<td>Trebuchet</td>
+											<td>Too short</td>
+											<td>Dinner with the CPs</td>
+										</tr>
+										<tr>
+											<td>Helicopter</td>
+											<td>Just right</td>
+											<td>NSA on your trail</td>
+										</tr>
+									<% else %>
+										<tr>
+											<td class="walking_link"><a href="javascript: void(0); ">Walking</a></td>
+											<td class="walking_eta"></td>
+											<td class="walking_exp"></td>
+										</tr>
+										<tr>
+											<td class="biking_link"><a href="javascript: void(0); ">Bicycling</a></td>
+											<td class="biking_eta"></td>
+											<td class="biking_exp"></td>
+										</tr>
+										<tr>
+											<td class="ubering_link"><a href="javascript: void(0); ">UberX</a></td>
+											<td class="ubering_eta"></td>
+											<td class="ubering_exp"></td>
+										</tr>
+									<% end %>
+								</tbody>
+							</table>
+
+							<table>
+								<tbody>
 									<tr>
-										<td>Trebuchet</td>
-										<td>Too short</td>
-										<td>Dinner with the CPs</td>
+										<td class="predator-td">
+											Estimated competitors: <span class="predators"><%= easter_egg ? 'Over 9000!!!' : estimated_predators[0].round(2) %></span></td>
 									</tr>
+								</tbody>
+							</table>
+
+							<table>
+								<tbody>
 									<tr>
-										<td>Helicopter</td>
-										<td>Just right</td>
-										<td>NSA on your trail</td>
-									</tr>
-								<% else %>
-									<tr>
-										<td class="walking_link"><a href="javascript: void(0); ">Walking</a></td>
-										<td class="walking_eta"></td>
-										<td class="walking_exp"></td>
-									</tr>
-									<tr>
-										<td class="biking_link"><a href="javascript: void(0); ">Bicycling</a></td>
-										<td class="biking_eta"></td>
-										<td class="biking_exp"></td>
-									</tr>
-									<tr>
-										<td class="ubering_link"><a href="javascript: void(0); ">UberX</a></td>
-										<td class="ubering_eta"></td>
-										<td class="ubering_exp"></td>
+										<td class='percentage_bar_container'>
+											<div class='percentage_text_container'>Chance: <%= easter_egg ? 'Null Set!' : '~<span class="percentage">...</span>%'.html_safe %></div><div class="percentage_bar" style="width: 0"></div>
+										</td>
 									</tr>
 								<% end %>
 							</tbody>
@@ -101,20 +129,21 @@
 								</tr>
 							</tbody>
 						</table>
-						<%= '<span class="button small catmit-claim">CLAIM THIS CATMIT IMMEDIATELY!!!</span>'.html_safe if easter_egg %>
+							<%= '<span class="button small catmit-claim">CLAIM THIS CATMIT IMMEDIATELY!!!</span>'.html_safe if easter_egg %>
+						</div>
 					</div>
 				</div>
 			</div>
+			<div class="email_overlay">
+				<% e.raw.lines.each do |l| %>
+					<p><%= l %></p>
+				<% end %>
+			</div>
 		</div>
-		<div class="email_overlay">
-			<% e.raw.lines.each do |l| %>
-				<p><%= l %></p>
-			<% end %>
-		</div>
-	</div>
 
+	<% end %>
+	<div id="nyan-overlay">
+	<h1 style="text-align: center;">MEOW.</h1>
+	<img src="http://mitadmissions.org/images/mit-blogs/IMG_3583.jpg" style="display:block;margin:0 auto;"></div>
+	</div>
 <% end %>
-<div id="nyan-overlay">
-<h1 style="text-align: center;">MEOW.</h1>
-<img src="http://mitadmissions.org/images/mit-blogs/IMG_3583.jpg" style="display:block;margin:0 auto;"></div>
-</div>

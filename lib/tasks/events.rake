@@ -1,7 +1,6 @@
 namespace :events do
   desc "Fetch new events from the gmail account. "
   task fetch: :environment do
-    require 'yo-ruby'
     require 'google/api_client'
     require 'google/api_client/client_secrets'
     require 'google/api_client/auth/installed_app'
@@ -73,12 +72,7 @@ namespace :events do
       Event.create!(title: subject, raw: content_utf8)
     end
 
-    if count > 0
-      Yo.api_key = APP_CONFIG[:yo][:api_key]
-      Yo.all!(link: 'http://google.com')
-
-      puts 'Yo-ed our lovely subscribers! '
-    end
+    Rails.logger.info "#{count} message(s) fetched from Gmail. "
   end
 
   task get_token: :environment do
@@ -128,10 +122,31 @@ namespace :events do
   end
 
   task parse: :environment do
+    require 'yo-ruby'
+
+    count = 0
+    valids = 0
     Event.all(:parsed.ne => true).each do |e|
       puts e.title
       e.parse!
+      count += 1
+      valids += 1 if e.valid
     end
+
+    if valids > 0
+      Yo.api_key = APP_CONFIG[:yo][:api_key]
+      Yo.all!(link: 'http://bd.ljh.me')
+
+      puts 'Yo-ed our lovely subscribers! '
+      Rails.logger.info "#{valids} valid events. Sent a yo. "
+    end
+
+    Rails.logger.info "#{count} event(s) parsed. "
+  end
+
+  task fetch_and_parse: :environment do
+    Rake::Task["events:fetch"].execute
+    Rake::Task["events:parse"].execute
   end
 
 end

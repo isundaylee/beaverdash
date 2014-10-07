@@ -18,3 +18,19 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+
+env :PATH, ENV['PATH']
+
+set :output, {
+  error: 'log/cron_errors.log',
+  standard: 'log/cron_logs.log'
+}
+
+every 1.minutes do
+  rake "events:fetch_and_parse"
+end
+
+every 5.minutes do
+  rake "router_nodes:download"
+  rake "router_nodes:import"
+end

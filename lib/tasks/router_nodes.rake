@@ -14,11 +14,13 @@ namespace :router_nodes do
 
   	command = "curl \"#{url}\" -o \"#{file}\""
   	`#{command}`
+
+    Rails.logger.info "Data points downloaded. "
   end
 
   desc "TODO"
   task import: :environment do
-  	all_rows = File.read(APP_CONFIG[:router_nodes][:data_file]).lines
+  	all_rows = File.foreach(APP_CONFIG[:router_nodes][:data_file]).first(6000)
   	latest_timestamp = all_rows[0].split(',')[0]
   	rows = all_rows.select { |r| r.split(',')[0] == latest_timestamp }
 
@@ -45,7 +47,7 @@ namespace :router_nodes do
   		RouterNode.create(lat: apn[0], lon: apn[1], users: n)
   	end
 
-  	puts "Successfully imported #{rows.count} data points! "
+  	Rails.logger.info "#{rows.count} data point(s) imported. "
   end
 
 end

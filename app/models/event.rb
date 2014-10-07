@@ -12,21 +12,23 @@ class Event
   key :parsed, Boolean
   key :valid, Boolean
 
+  timestamps!
+
   def parse!
     bn = parse_building_number(title) || parse_building_number(raw)
     latlon = retrieve_latlon(bn[:building] || bn[:city]) unless bn.nil?
 
-    set(
-      location: bn,
-      parsed: true,
-      valid: !bn.nil?
-    )
+    self.location = bn
+    self.parsed = true
+    self.valid = !bn.nil?
 
-    set(
-      lat: latlon[0],
-      lon: latlon[1],
-      foods: parse_food(title + " " + raw)
-    ) unless bn.nil?
+    unless bn.nil?
+      self.lat = latlon[0]
+      self.lon = latlon[1]
+      self.foods = parse_food(title + " " + raw)
+    end
+
+    save
   end
 
   def friendly_location
@@ -39,7 +41,11 @@ class Event
       "#{loc[:building]}-#{loc[:room]}" :
       "#{loc[:building]}"
 
-    "Building #{num.upcase}#{(' ' + loc[:floor].titleize) rescue ''}#{(' ' + loc[:signal_words].map(&:titleize).join('/')) rescue ''}"
+    signals = (loc[:signal_words].nil? || loc[:signal_words].empty?) ?
+      '' :
+      loc[:signal_words].map(&:titleize).join('/')
+
+    "Building #{num.upcase}#{(' ' + loc[:floor].titleize) rescue ''}#{signals}"
   end
 
   def friendly_datetime
