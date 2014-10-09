@@ -128,11 +128,16 @@ footer {
 
 .percentage_bar {
   background-color: rgb(255, 204, 75);
-  width: 70%;
+  width: 0;
   height: 38px;
   padding: 10px 0px;
   color: white;
   overflow: hidden;
+
+  &.claimed {
+    background-color: #c60f13;
+    width: 100%;
+  }
 }
 
 .predator-td {
@@ -141,6 +146,10 @@ footer {
 .percentage_text_container {
   position: absolute;
   padding: 10px 20px;
+
+  &.claimed {
+    color: white;
+  }
 }
 
 a {

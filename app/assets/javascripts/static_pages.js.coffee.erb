@@ -185,6 +185,8 @@ $ ->
       outer = $(c).parents('.event')
       id = $(outer).data('id')
 
+      return if gon.events[id].claimed
+
       current = new Date()
       emailTime = new Date(gon.events[id].email_time * 1000)
       diff = current.getTime() - emailTime.getTime()

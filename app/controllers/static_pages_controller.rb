@@ -11,6 +11,7 @@ class StaticPagesController < ApplicationController
       {
         lat: e.lat,
         lon: e.lon,
+        claimed: e.claimed,
         router_points: e.estimated_predators[1],
         email_time: e.raw_datetime,
         predators: e.estimated_predators[0].round(2)

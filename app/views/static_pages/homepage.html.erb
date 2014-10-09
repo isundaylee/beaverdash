@@ -97,14 +97,14 @@
 								<tbody>
 									<tr>
 										<td class='percentage_bar_container'>
-											<div class='percentage_text_container'>
+											<div class='percentage_text_container <%= "claimed" if e.claimed %>'>
 												<% if e.claimed %>
 													<span>Taken or partially taken</span>
 												<% else %>
 													Chance: <%= easter_egg ? 'Null Set!' : '<span class="percentage">...</span>%'.html_safe %>
 												<% end %>
 											</div>
-											<div class="percentage_bar" style="width: 0"></div>
+											<div class="percentage_bar <%= "claimed" if e.claimed %>"></div>
 										</td>
 									</tr>
 								</tbody>
