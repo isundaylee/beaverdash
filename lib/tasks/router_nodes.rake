@@ -10,7 +10,7 @@ namespace :router_nodes do
 
   task download: :environment do
   	file = APP_CONFIG[:router_nodes][:data_file]
-  	url = 'http://istc3.csail.mit.edu:8999/log_09-25-to-oct.csv'
+  	url = 'http://istc3.csail.mit.edu:8999/now'
 
   	command = "curl \"#{url}\" -o \"#{file}\""
   	`#{command}`
