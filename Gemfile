@@ -62,7 +62,7 @@ gem 'yo-ruby'
 gem 'fitbit'
 
 # Uses Unicorn for server
-gem 'unicorn'
+#gem 'unicorn'
 
 # Deployment
 gem 'recap'
