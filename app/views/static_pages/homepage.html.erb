@@ -8,7 +8,6 @@
 <% else %>
 	<% @events.each_with_index do |e, i| %>
 		<% estimated_predators = e.estimated_predators %>
-		<% easter_egg = true if e.friendly_location == "Building 10-DOME" %>
 		<div class="row event" data-id="<%= i %>">
 			<div class="small-12 column">
 				<div class="row">
@@ -21,11 +20,7 @@
 				<div class = "panel">
 					<div class = "row">
 						<div class = "small-12 medium-6 columns">
-							<!-- <div class = "panel"> -->
-								<!-- <br><img src="http://placehold.it/500x500&text=Image"><br> -->
-								<div class="map-canvas" id="map-<%= i %>">
-								</div>
-							<!-- </div> -->
+							<div class="map-canvas" id="map-<%= i %>"></div>
 						</div>
 
 						<div class="small-12 medium-6 columns">
@@ -34,7 +29,7 @@
 									<tr>
 										<td>
 											<h5 class="title"><b><%= link_to e.friendly_foods, 'javascript: void(0);' %></b></h5>
-											<p class="info"><%= e.friendly_location %>. Sent at <%= e.friendly_datetime %><span class="walking-time"></span></p>
+											<p class="info"><%= e.friendly_location %>. Sent at <%= e.friendly_datetime %></p>
 										</td>
 									</tr>
 								</tbody>
@@ -47,39 +42,21 @@
 										<th>ETA</th>
 										<th>Cost</th>
 									</tr>
-									<% if easter_egg %>
-										<tr>
-											<td>Climbing</td>
-											<td>Too long</td>
-											<td>All feeling in your limbs</td>
-										</tr>
-										<tr>
-											<td>Trebuchet</td>
-											<td>Too short</td>
-											<td>Dinner with the CPs</td>
-										</tr>
-										<tr>
-											<td>Helicopter</td>
-											<td>Just right</td>
-											<td>NSA on your trail</td>
-										</tr>
-									<% else %>
-										<tr>
-											<td class="walking_link"><a href="javascript: void(0); ">Walking</a></td>
-											<td class="walking_eta"></td>
-											<td class="walking_exp"></td>
-										</tr>
-										<tr>
-											<td class="biking_link"><a href="javascript: void(0); ">Bicycling</a></td>
-											<td class="biking_eta"></td>
-											<td class="biking_exp"></td>
-										</tr>
-										<tr>
-											<td class="ubering_link"><a href="javascript: void(0); ">UberX</a></td>
-											<td class="ubering_eta"></td>
-											<td class="ubering_exp"></td>
-										</tr>
-									<% end %>
+									<tr>
+										<td class="walking_link"><a href="javascript: void(0); ">Walking</a></td>
+										<td class="walking_eta"></td>
+										<td class="walking_exp"></td>
+									</tr>
+									<tr>
+										<td class="biking_link"><a href="javascript: void(0); ">Bicycling</a></td>
+										<td class="biking_eta"></td>
+										<td class="biking_exp"></td>
+									</tr>
+									<tr>
+										<td class="ubering_link"><a href="javascript: void(0); ">UberX</a></td>
+										<td class="ubering_eta"></td>
+										<td class="ubering_exp"></td>
+									</tr>
 								</tbody>
 							</table>
 
@@ -87,7 +64,7 @@
 								<tbody>
 									<tr>
 										<td class="predator-td">
-											Estimated competitors: <span class="predators"><%= easter_egg ? 'Over 9000!!!' : estimated_predators[0].round(2) %></span></td>
+											Estimated competitors: <span class="predators"><%= estimated_predators[0].round(2) %></span></td>
 									</tr>
 								</tbody>
 							</table>
@@ -100,7 +77,7 @@
 												<% if e.claimed %>
 													<span>Taken or partially taken</span>
 												<% else %>
-													Chance: <%= easter_egg ? 'Null Set!' : '<span class="percentage">...</span>%'.html_safe %>
+													Chance: <span class="percentage">...</span>%
 												<% end %>
 											</div>
 											<div class="percentage_bar <%= "claimed" if e.claimed %>"></div>

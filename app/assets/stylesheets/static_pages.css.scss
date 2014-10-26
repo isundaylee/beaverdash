@@ -3,8 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .map-canvas {
-	// height: 500px;
-	// width: 500px;
   height: 100%;
   width: 100%;
 }
@@ -22,12 +20,9 @@
   background-color: black;
   opacity: 0.9;
   padding-top: 50px;
-
   display: none;
   overflow: scroll;
-
   z-index: 100;
-
   p {
     width: 100%;
     max-width: 600px;
@@ -38,18 +33,12 @@
   }
 }
 
-.titlebar_container {
-  padding: 0 0.9375rem;
-}
-
 .titlebar {
-  font-weight: bold;
-  #background-color: #428BCA;
-  background-color: #CCCCCC;
+	background-color: #A63737;
   padding: 5px 10px;
   text-align: center;
   text-transform: uppercase;
-  color: #8C1515;
+  color: #FAFAFA;
 }
 
 .info {
@@ -57,38 +46,46 @@
   font-size: 15px;
 }
 
-header h1 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  padding: 7px 10px;
-  margin-top: 5px;
-  margin-bottom: -5px;
-  margin-left: -85px;
-  color: #FFF;
-}
-
-header h2 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-style: italic;
-  font-size: 15px;
-  padding: 30px 10px;
-  margin-top: 30px;
-  margin-bottom: -20px;
-  color: #FFF;
-  text-align: right;
-}
-
-header h3 {
-  padding: 7px 10px;
-  margin-top: 12px;
-  margin-bottom: -5px;
-  color: #8C1515
-}
-
 header {
-  #background-color: #428BCA;
-  background-color: #8C1515;
-  margin-top: 0px;
-  margin-bottom: -20px;
+  .top-bar {
+		.row {
+			max-width: 62.5rem;
+		  h1 {
+		  	color: #FFF;
+		  	font-size: 1.5rem;
+		  	small{
+		  		color: #BBB
+		  	}
+		  }
+		  ul.right {
+				width: auto;
+				height: auto !important;
+				display: inline;
+				li a {
+					padding: 0 15px;
+					background-color: #3A3A3A;
+				}
+			}
+		}
+		background-color: #444;
+		height: 48px;
+		border-bottom: 3px solid #A63737;
+		margin-bottom: 20px;
+  }
+}
+
+footer {
+	background-color: #444;
+	height: 40px;
+	font-size: 12px;
+	color: DDD;
+	padding: 10px 0;
+}
+
+@media only screen and (max-width: 42.063em) {
+	.top-bar h1 small {
+		display: none;
+	}
 }
 
 table {
@@ -98,21 +95,12 @@ table {
   }
 }
 
-footer div {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
 footer {
-  #background-color: #428BCA;
-  background-color: #8C1515;
-  margin-top: -20px;
-  margin-bottom: -20px;
   color: #FFF;
 }
 
 .panel {
-  background-color: #f6f6f6 !important;
+  background-color: #f1f1f1;
 }
 
 .percentage_bar_container {
@@ -134,9 +122,6 @@ footer {
   }
 }
 
-.predator-td {
-}
-
 .percentage_text_container {
   position: absolute;
   padding: 10px 20px;
@@ -147,34 +132,7 @@ footer {
 }
 
 a {
-  color: #8C1515
-}
-
-.email-time, .walking-time {
-  display: none;
-}
-
-.fitbit, .fitbit a {
-  margin: 0;
-  padding: 0;
-  color: white;
-  text-align: right;
-}
-
-.fitbit {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  padding-right: 10px;
-  margin-top: 7px;
-  font-size: 10px;
-  text-align: right;
-}
-
-h2 {
-  margin-top: 0 !important;
-}
-
-.weight {
-  display: none;
+  color: #A63737;
 }
 
 .success_banner {

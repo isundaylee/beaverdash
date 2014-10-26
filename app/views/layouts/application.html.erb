@@ -14,46 +14,39 @@
 
   <body>
     <header>
-      <div class="row">
-        <div class="small-3 large-2 columns">
-          <div class="hide-for-small-only">
-            <h3><img src="https://dl.dropboxusercontent.com/u/31822930/MIT-logo-lightgray-white-large.png" /></h3>
-          </div>
+      <nav class="top-bar">
+        <div class="row">
+          <ul class="small-7 columns title-area">
+            <li class="name">
+              <h1>BeaverDash <small>Revolutionizing Free Food and Reuse at MIT</small></h1>
+            </li>
+          </ul>
+          <section class="top-bar-section">
+            <ul class="right">
+              <li>
+                <% if @fitbit_link.nil? %>
+                  Signed in to Fitbit
+                <% else %>
+                  <a href="<%= @fitbit_link %>">Sign in to Fitbit</a>
+                <% end %>
+              </li>
+            </ul>
+          </section>
         </div>
-        <div class="small-3 large-2 columns">
-          <div class="show-for-small-only">
-            <h3>-</h3>
-          </div>
-        </div>
-        <div class="small-9 large-5 columns">
-          <h1>BeaverDash</h1>
-        </div>
-        <div class="small-12 large-5 columns">
-          <% if @fitbit_link.nil? %>
-          <p class="fitbit">Signed in to Fitbit</p>
-          <% else %>
-          <p class="fitbit"><a href="<%= @fitbit_link %>">Sign in to Fitbit</a></p>
-          <% end %>
-          <h2>Revolutionizing Free Food and Reuse at MIT</h2>
-        </div>
-      </div>
+      </nav>
     </header>
-
-    <hr>
 
     <% if flash[:success] %>
       <div class="row">
-        <div class="small-12 large-12 columns success_banner"><%= flash[:success] %></div>
+        <div class="small-12 columns success_banner"><%= flash[:success] %></div>
       </div>
     <% end %>
 
     <%= yield %>
 
-    <hr>
-
     <footer>
       <div class="row">
-        <div class="small-12 large-12 columns">
+        <div class="small-12 columns">
           Copyright BeaverDash 2014.  Built at HackMIT by Phoebe Cai, Connor Duffy, Mitchell Gu, and Jiahao Li.
         </div>
       </div>
