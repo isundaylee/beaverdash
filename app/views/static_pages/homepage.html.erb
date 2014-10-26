@@ -90,9 +90,11 @@
 				</div>
 			</div>
 			<div class="email_overlay">
-				<% e.raw.lines.each do |l| %>
-					<p><%= l %></p>
-				<% end %>
+				<div class="email_content">
+					<% e.raw.lines.each do |l| %>
+						<p><%= l %></p>
+					<% end %>
+				</div>
 			</div>
 		</div>
 

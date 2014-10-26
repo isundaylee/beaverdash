@@ -17,19 +17,21 @@
   position: fixed;
   left: 0;
   top: 0;
-  background-color: black;
-  opacity: 0.9;
+	background: rgba(0, 0, 0, 0.45);
   padding-top: 50px;
   display: none;
   overflow: scroll;
   z-index: 100;
-  p {
+  .email_content {
     width: 100%;
-    max-width: 600px;
+    max-width: 700px;
     display: block;
     margin: 15px auto;
     padding: 20px;
-    color: white;
+		border-radius: 3px;
+		background-color: white;
+		border: solid 1px #666666;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   }
 }
 
