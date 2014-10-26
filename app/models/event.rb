@@ -21,6 +21,7 @@ class Event
 
   DELIMITER = '[^a-z0-9-]'
   REPLY_REGEX = /^re:(.*)/
+  REUSE_REGEX = /^\[reuse\](.*)/
 
   def parse!
     parse_for_event!
@@ -31,9 +32,7 @@ class Event
     if REPLY_REGEX =~ title.downcase
       self.valid = false
       self.parsed = true
-
       save
-
       return
     end
 
@@ -43,13 +42,13 @@ class Event
     self.location = bn
     self.parsed = true
     self.valid = !bn.nil?
-
     unless bn.nil?
       self.lat = latlon[0]
       self.lon = latlon[1]
-      self.foods = parse_food(raw) || parse_food(title)
+      unless REUSE_REGEX =~ title.downcase
+        self.foods = parse_food(raw) || parse_food(title)
+      end
     end
-
     save
   end
 
