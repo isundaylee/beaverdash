@@ -92,14 +92,6 @@ $ ->
           outer.find('.walking_link a').attr('href', 'http://localhost:3000/log?activity=walking&duration=' + duration + '&distance=' + length + '&calories=' + calculateCalories(length, 0.53))
         directionDisplays[id].setDirections result if status is google.maps.DirectionsStatus.OK
 
-      if outer.find('.catmit').text() == "true"
-        marker = new google.maps.Marker(
-          position: new google.maps.LatLng(42.359655, -71.092006)
-          title: "CatMIT!"
-          icon: "http://ljh.me/nyan-cat.gif"
-        )
-        marker.setMap maps[id]
-
       getWalkingETA()
       setPercentages()
 
@@ -199,12 +191,3 @@ $ ->
   initializeLinks()
   initializeMap()
   getLocation()
-
-  audio = new Audio('http://web.mit.edu/mitchgu/www/nyan.mp3');
-  $(".catmit-claim").click ->
-    audio.play();
-    $("#nyan-overlay").show()
-
-  $("#nyan-overlay").click ->
-    $("#nyan-overlay").hide()
-    audio.pause()

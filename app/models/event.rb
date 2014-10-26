@@ -178,11 +178,6 @@ class Event
       text.downcase!
       text = " #{text} "
 
-      return {
-        building: "10",
-        room: "dome"
-      } if /catmit/ =~ text
-
       dashed_regex = Regexp.new(DELIMITER + all_buildings_reg + '-((g|)[0-9]{3,})' + DELIMITER)
       dashed_match = dashed_regex.match(text)
 
