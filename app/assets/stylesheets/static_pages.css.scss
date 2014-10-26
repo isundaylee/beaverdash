@@ -64,7 +64,8 @@ header {
 				height: auto !important;
 				display: inline;
 				li a {
-					padding: inherit 15px;
+					padding-left: 15px;
+					padding-right: 15px;
 					background-color: #3A3A3A;
 				}
 			}
@@ -79,7 +80,7 @@ header {
 footer {
 	background-color: #444;
 	font-size: 12px;
-	color: DDD;
+	color: #DDD;
 	padding: 10px 0;
 }
 
