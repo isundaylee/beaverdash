@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'oauth/oauth'
 
   root 'static_pages#homepage'
+  get 'uber/delegate'
 
   get 'oauth' => 'oauth#oauth'
   get 'log' => 'oauth#log_activity'

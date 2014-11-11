@@ -59,7 +59,7 @@ $ ->
         duration = result.routes[0].legs[0].duration.value
 
         $.ajax
-          url: "https://api.uber.com/v1/estimates/time?start_latitude=" + latlon.lat() + "&start_longitude=" + latlon.lng()
+          url: "/uber/delegate?url=" + encodeURIComponent("https://api.uber.com/v1/estimates/time?start_latitude=" + latlon.lat() + "&start_longitude=" + latlon.lng())
           type: 'GET'
           success: (data, status, xhr) ->
             uber_eta = null
@@ -67,22 +67,19 @@ $ ->
               if t['display_name'] == 'uberX'
                 uber_eta = t['estimate']
             outer.find('.ubering_eta').text(formatDate(timeAfter((duration + uber_eta) * 1.0 / 60)))
-          beforeSend: (xhr) ->
-            xhr.setRequestHeader('Authorization', "Token U8-Gh1wXD_q-TOCR86JDpxAftM1vNX6U95TIIdE3")
 
         $.ajax
-          url: "https://api.uber.com/v1/estimates/price?start_latitude=" + myLatlon.lat() + "&start_longitude=" + myLatlon.lng() + "&end_latitude=" + latlon.lat() + "&end_longitude=" + latlon.lng()
+          url: "/uber/delegate?url=" + encodeURIComponent("https://api.uber.com/v1/estimates/price?start_latitude=" + myLatlon.lat() + "&start_longitude=" + myLatlon.lng() + "&end_latitude=" + latlon.lat() + "&end_longitude=" + latlon.lng())
           type: 'GET'
           success: (data, status, xhr) ->
             low = null
             high = null
+            console.log data
             $(data.prices).each (i, t) ->
               if t['display_name'] == 'uberX'
                 low = parseFloat(t['low_estimate'])
                 high = parseFloat(t['high_estimate'])
             outer.find('.ubering_exp').text('$' + (low + high) / 2)
-          beforeSend: (xhr) ->
-            xhr.setRequestHeader('Authorization', "Token <%= APP_CONFIG[:uber][:token] %>")
 
       directionsService.route request, (result, status) ->
         duration = result.routes[0].legs[0].duration.value
