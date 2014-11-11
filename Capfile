@@ -3,9 +3,9 @@ require 'recap/recipes/rails'
 set :application, 'bd'
 set :repository, 'https://github.com/isundaylee/beaverdash.git'
 
-set :user, 'root'
+set :user, 'mitchellgu'
 
-server '104.131.70.190', :app
+server '128.52.162.200', :app
 
 set :whenever_command, "bundle exec whenever"
 set(:whenever_identifier)   { application }
