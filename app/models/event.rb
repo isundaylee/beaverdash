@@ -1,7 +1,7 @@
 class Event
   include MongoMapper::Document
 
-  scope :active, where(valid: true, :created_at.gte => 6.hours.ago).order(created_at: :desc).limit(3)
+  scope :active, where(valid: true, :created_at.gte => 6000.hours.ago).order(created_at: :desc).limit(3)
   scope :valid, where(valid: true)
 
   key :title, String
